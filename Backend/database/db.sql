@@ -1,3 +1,5 @@
+CREATE DATABASE bookly;
+
 CREATE TABLE genres (
   genreId serial PRIMARY KEY,
   genreName VARCHAR(50) UNIQUE NOT NULL
