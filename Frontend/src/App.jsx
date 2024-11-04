@@ -1,15 +1,15 @@
-
 import Login from "./components/LoginForm";
-import Footer from './components/Footer'
+import Footer from "./components/Footer";
 
 function MyComponent() {
-  return
-  <>
+  return (
+    <>
       <main className="min-vh-100">
-    <Login />;
-        </main>
+        <Login />;
+      </main>
       <Footer />
     </>
+  );
 }
 
-export default MyComponent
+export default MyComponent;
