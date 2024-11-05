@@ -1,9 +1,9 @@
-import Footer from './components/Footer'
-import NavBar from './components/NavBar'
-import Home from './pages/Home'
-import Bookshelf from './pages/Bookshelf'
-import Settings from './pages/Settings'
-import { createHashRouter, Outlet, RouterProvider } from 'react-router-dom'
+import Footer from "./components/Footer";
+import NavBar from "./components/NavBar";
+import Home from "./pages/Home";
+import Bookshelf from "./pages/Bookshelf";
+import Settings from "./pages/Settings";
+import { createHashRouter, Outlet, RouterProvider } from "react-router-dom";
 
 function MyComponent() {
   const router = createHashRouter([
@@ -11,15 +11,15 @@ function MyComponent() {
       children: [
         {
           element: <Home />,
-          path: '/',
+          path: "/",
         },
         {
           element: <Bookshelf />,
-          path: '/my-bookshelf',
+          path: "/my-bookshelf",
         },
         {
           element: <Settings />,
-          path: '/settings',
+          path: "/settings",
         },
       ],
 
@@ -33,9 +33,9 @@ function MyComponent() {
         </>
       ),
     },
-  ])
+  ]);
 
-  return <RouterProvider router={router} />
+  return <RouterProvider router={router} />;
 }
 
-export default MyComponent
+export default MyComponent;
