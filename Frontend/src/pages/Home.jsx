@@ -1,3 +1,5 @@
+import AllBooks from "../components/AllBooks";
+
 export default function Home() {
-  return <h1>Hem</h1>
+  return <AllBooks />;
 }
