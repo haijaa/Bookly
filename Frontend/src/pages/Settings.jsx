@@ -1,3 +1,5 @@
+import UserForm from "../components/UserForm";
+
 export default function Settings() {
-  return <h1>Inställningar</h1>
+  return <UserForm />;
 }
