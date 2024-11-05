@@ -103,3 +103,13 @@ INSERT INTO bookGenres (bookGenreBookId, bookGenreGenreId) VALUES
 (13, 3), -- The Da Vinci Code -> Mysterier
 (14, 4), -- The Hobbit -> Fantasy
 (15, 2); -- The Alchemist -> Icke-fiktion
+
+INSERT INTO users (userFullName, userEmail, userProfilePicture, useruserName, userPassword) VALUES
+('Erik Svensson', 'erik.svensson@email.com', NULL, 'erik.svensson', 'password123'),
+('Anna Karlsson', 'anna.karlsson@email.com', NULL, 'anna.karlsson', 'password123'),
+('Lena Andersson', 'lena.andersson@email.com', NULL, 'lena.andersson', 'password123'),
+('Oskar Lindberg', 'oskar.lindberg@email.com', NULL, 'oskar.lindberg', 'password123'),
+('Emil Johansson', 'emil.johansson@email.com', NULL, 'emil.johansson', 'password123'),
+('Sara Eriksson', 'sara.eriksson@email.com', NULL, 'sara.eriksson', 'password123'),
+('Hanna Berg', 'hanna.berg@email.com', NULL, 'hanna.berg', 'password123'),
+('Johan Larsson', 'johan.larsson@email.com', NULL, 'johan.larsson', 'password123');
