@@ -26,7 +26,7 @@ function MyComponent() {
       element: (
         <>
           <NavBar />
-          <main className="min-vh-100">
+          <main className="min-vh-100" style={{ backgroundColor: "#F2E9DC" }}>
             <Outlet />
           </main>
           <Footer />

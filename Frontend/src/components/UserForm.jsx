@@ -21,7 +21,7 @@ export default function UserForm() {
 
   return (
     <Form
-      className="container p-3 my-5 d-flex flex-column w-25"
+      className="container p-3 d-flex flex-column w-25"
       noValidate
       validated={validated}
       onSubmit={handleSubmit}
