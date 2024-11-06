@@ -42,7 +42,7 @@ app.get("/api/books/:id", async (request, response) => {
             'reviewUser', jsonb_build_object(
                 'userId', users.userId,
                 'userFullName', users.userFullName,
-                'useruserName', users.useruserName
+                'userUserName', users.userUserName
             )
         )) AS reviews,
         array_agg(DISTINCT jsonb_build_object(
@@ -64,7 +64,7 @@ app.get("/api/books/:id", async (request, response) => {
     GROUP BY
         books.bookId;
     `,
-    [id]
+    [id],
   );
   response.send(rows);
 });
@@ -74,12 +74,92 @@ app.post("/api/reviews", async (request, response) => {
   try {
     const { rows } = await client.query(
       "INSERT INTO reviews (reviewContent, revuewUserId , reviewBookId) VALUES ($1, $2, $3)",
-      [reviewContent, revuewUserId, reviewBookId]
+      [reviewContent, revuewUserId, reviewBookId],
     );
     response.status(201).json(rows[0]);
   } catch (error) {
     console.log("Error: ", error);
     response.status(500).send("Error on serverside");
+  }
+});
+
+app.get("/api/users", async (request, response) => {
+  const { rows } = await client.query("SELECT * FROM users;");
+  response.send(rows);
+});
+
+app.post("/api/users", async (request, response) => {
+  const { userFullName, userEmail, userUserName, userPassword } = request.body;
+  try {
+    const { rows } = await client.query(
+      "INSERT INTO users (userFullname, userEmail, userUserName, userPassword) VALUES ($1, $2, $3, $4);",
+      [userFullName, userEmail, userUserName, userPassword],
+    );
+    response
+      .status(201)
+      .json({ message: "User created successfully", user: rows[0] });
+  } catch (error) {
+    console.error("Error create user", error);
+    response.status(500).send({
+      message: "Error create user",
+      error: error.message,
+    });
+  }
+});
+
+app.put("/api/users", async (request, response) => {
+  const {
+    userId,
+    userFullName,
+    userEmail,
+    userUserName,
+    userPassword,
+    userProfilePicture,
+  } = request.body;
+  try {
+    const { rows } = await client.query(
+      `UPDATE users SET userFullName = $1,
+          userEmail = $2,
+          userUserName = $3,
+          userPassword = $4,
+          userProfilePicture = $5 WHERE userId = $6;`,
+      [
+        userFullName,
+        userEmail,
+        userUserName,
+        userPassword,
+        userProfilePicture,
+        userId,
+      ],
+    );
+    response
+      .status(201)
+      .json({ message: "User updated successfully", user: rows[0] });
+  } catch (error) {
+    console.error("Error update user", error);
+    response.status(500).send({
+      message: "Error update user",
+      error: error.message,
+    });
+  }
+});
+
+app.delete("/api/users", async (request, response) => {
+  const { userId } = request.body;
+  try {
+    const { rows } = await client.query(
+      "DELETE FROM users WHERE userId = $1;",
+      [userId],
+    );
+    response
+      .status(201)
+      .json({ message: "User deleted successfully", user: rows[0] });
+  } catch (error) {
+    console.error("Error delete user", error);
+    response.status(500).send({
+      message: "Error delete user",
+      error: error.message,
+    });
   }
 });
 
