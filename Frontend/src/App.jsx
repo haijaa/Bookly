@@ -3,6 +3,7 @@ import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import Bookshelf from "./pages/Bookshelf";
 import Settings from "./pages/Settings";
+import Login from "./components/LoginForm";
 import { createHashRouter, Outlet, RouterProvider } from "react-router-dom";
 
 function MyComponent() {
@@ -12,6 +13,10 @@ function MyComponent() {
         {
           element: <Home />,
           path: "/",
+        },
+        {
+          element: <Login />,
+          path: "/login",
         },
         {
           element: <Bookshelf />,

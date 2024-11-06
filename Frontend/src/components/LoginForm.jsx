@@ -1,22 +1,57 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import UserForm from "./UserForm";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
-function Login() {
-  const [activeTab, setActiveTab] = useState("login");
+export default function LoginForm() {
+  const [activeTab, setActiveTab] = useState("login"),
+    [validateRegister, setValidateRegister] = useState(false),
+    [validateLogin, setValidateLogin] = useState(false),
+    [conditions, setConditions] = useState(false);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+  const handleSubmitRegister = (event) => {
+    event.preventDefault();
+    const form = event.currentTarget,
+      formData = new FormData(event.target),
+      formValues = Object.fromEntries(formData.entries());
+    console.log("formvalues: ", formValues);
+
+    if (form.checkValidity() === false) {
+      setValidateRegister(true);
+    } else {
+      setValidateRegister(false);
+    }
+  };
+
+  const handleSubmitLogin = (event) => {
+    event.preventDefault();
+    const form = event.currentTarget,
+      formData = new FormData(event.target),
+      formValues = Object.fromEntries(formData.entries());
+    console.log("Form Values:", formValues);
+
+    if (form.checkValidity() === false) {
+      setValidateLogin(true);
+    } else {
+      setValidateLogin(false);
+    }
+  };
+
   return (
-    <div className="container p-3 my-5 d-flex flex-column w-25">
+    <div className="container p-3 d-flex flex-column w-25">
+      <h1 className="text-center m-5">Bookly</h1>
       <ul className="nav nav-pills mb-3 d-flex flex-row justify-content-between">
         <li className="nav-item">
           <button
             className={`nav-link ${activeTab === "login" ? "active" : ""}`}
             onClick={() => handleTabClick("login")}
           >
-            Login
+            Logga in
           </button>
         </li>
         <li className="nav-item">
@@ -24,82 +59,101 @@ function Login() {
             className={`nav-link ${activeTab === "register" ? "active" : ""}`}
             onClick={() => handleTabClick("register")}
           >
-            Register
+            Registrera ny användare
           </button>
         </li>
       </ul>
 
       {activeTab === "login" && (
-        <div className="tab-content">
-          <div className="text-center mb-3">
-            <p>or:</p>
-          </div>
+        <>
+          <Form
+            className="d-flex flex-column mt-4"
+            noValidate
+            validated={validateLogin}
+            onSubmit={handleSubmitLogin}
+          >
+            <Form.Group controlId="username" className="mb-3">
+              <Form.Label>Användarnamn</Form.Label>
+              <Form.Control
+                required
+                type="username"
+                name="username"
+                placeholder="Användarnamn"
+              />
+            </Form.Group>
 
-          <input
-            className="form-control mb-4"
-            type="email"
-            placeholder="Email address"
-          />
-          <input
-            className="form-control mb-4"
-            type="password"
-            placeholder="Password"
-          />
+            <Form.Group className="mb-3">
+              <Form.Label>Lösenord</Form.Label>
+              <Form.Control
+                required
+                type="password"
+                name="password"
+                placeholder="Lösenord"
+              />
+            </Form.Group>
 
-          <div className="d-flex justify-content-between mx-4 mb-4">
-            <div>
-              <input type="checkbox" id="rememberMe" />
-              <label htmlFor="rememberMe"> Remember me</label>
+            <div className="d-flex justify-content-between mx-4 mb-4">
+              <div>
+                <input className="me-2" type="checkbox" id="rememberMe" />
+                <label htmlFor="rememberMe">Kom ihåg mig</label>
+              </div>
+              <a href="#!">Glömt lösenord?</a>
             </div>
-            <a href="#!">Forgot password?</a>
-          </div>
 
-          <button className="btn btn-primary mb-4 w-100">Sign in</button>
+            {validateLogin && (
+              <p className="mb-3 text-center text-danger">
+                Vänligen skriv in användarnamn och lösenord
+              </p>
+            )}
+
+            <Button className="mb-4 mt-4" type="submit" variant="primary">
+              Logga in
+            </Button>
+          </Form>
           <p className="text-center">
-            Not a member?{" "}
-            <a href="#!" onClick={() => handleTabClick("register")}>
-              Register
+            Har du inget konto? {/* Redigera länken här sen! */}
+            <a
+              href="/books/2?#/my-bookshelf"
+              onClick={() => handleTabClick("register")}
+            >
+              Registrera dig
             </a>
           </p>
-        </div>
+        </>
       )}
 
       {activeTab === "register" && (
-        <div className="tab-content">
-          <div className="text-center mb-3">
-            <p>or:</p>
-          </div>
-
-          <input className="form-control mb-4" type="text" placeholder="Name" />
-          <input
-            className="form-control mb-4"
-            type="text"
-            placeholder="Username"
-          />
-          <input
-            className="form-control mb-4"
-            type="email"
-            placeholder="Email"
-          />
-          <input
-            className="form-control mb-4"
-            type="password"
-            placeholder="Password"
-          />
+        <Form
+          className="d-flex flex-column mt-4"
+          noValidate
+          validated={validateRegister}
+          onSubmit={handleSubmitRegister}
+        >
+          <UserForm validated={validateRegister} />
 
           <div className="d-flex justify-content-center mb-4">
-            <input type="checkbox" id="agreeTerms" />
+            <input
+              className="me-3"
+              type="checkbox"
+              id="agreeTerms"
+              value={conditions}
+              onChange={() => setConditions(!conditions)}
+            />
             <label htmlFor="agreeTerms">
-              {" "}
-              I have read and agree to the terms
+              Jag har läst och accepterat användarvillkoren
             </label>
           </div>
 
-          <button className="btn btn-primary mb-4 w-100">Sign up</button>
-        </div>
+          <Button
+            className="mt-4"
+            variant="primary"
+            type="submit"
+            disabled={!conditions}
+          >
+            Skapa användare
+          </Button>
+        </Form>
       )}
     </div>
   );
 }
-
-export default Login;
