@@ -1,20 +1,23 @@
-import Container from 'react-bootstrap/Container'
-import Image from 'react-bootstrap/Image'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
-import NavDropdown from 'react-bootstrap/NavDropdown'
-import profileImage from '../assets/booklyOwl.webp'
-import { NavLink } from 'react-router-dom'
+import Container from "react-bootstrap/Container";
+import Image from "react-bootstrap/Image";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import profileImage from "../assets/booklyOwl.webp";
+import { NavLink } from "react-router-dom";
 
 export default function NavBar() {
   return (
-    <Navbar expand="lg" style={{ backgroundColor: '#606D5D' }}>
+    <Navbar expand="lg" style={{ backgroundColor: "#606D5D" }}>
       <Container>
         <Navbar.Brand as={NavLink} to="/">
           Bookly
         </Navbar.Brand>
         <Nav className="d-flex justify-content-between">
           <span className="d-flex flex-row">
+            <Nav.Link as={NavLink} to="/login">
+              Logga in
+            </Nav.Link>
             <Nav.Link as={NavLink} to="/">
               Alla böcker
             </Nav.Link>
@@ -33,7 +36,7 @@ export default function NavBar() {
                     id="basic-nav-dropdown"
                     src={profileImage}
                     roundedCircle
-                    style={{ width: '30px', margin: '0 10px' }}
+                    style={{ width: "30px", margin: "0 10px" }}
                   />
                 </span>
               }
@@ -47,5 +50,5 @@ export default function NavBar() {
         </Nav>
       </Container>
     </Navbar>
-  )
+  );
 }

@@ -21,7 +21,7 @@ CREATE TABLE users (
   userFullName VARCHAR(50) NOT NULL,
   userEmail VARCHAR(50) UNIQUE NOT NULL,
   userProfilePicture VARCHAR(250),
-  useruserName VARCHAR(50) UNIQUE NOT NULL ,
+  userUserName VARCHAR(50) UNIQUE NOT NULL ,
   userPassword VARCHAR(50) NOT NULL
 );
 
@@ -52,16 +52,16 @@ CREATE TABLE userBooks (
   FOREIGN KEY (userBookBookId) REFERENCES books(bookId)
 );
 
-DROP TABLE genres;
-DROP TABLE books;
-DROP TABLE users;
-DROP TABLE reviews;
-DROP TABLE bookGenres;
 DROP TABLE userBooks;
+DROP TABLE bookGenres;
+DROP TABLE reviews;
+DROP TABLE users;
+DROP TABLE books;
+DROP TABLE genres;
 
 INSERT INTO genres (genreName) VALUES
 ('Fiktion'),
-('Icke-fiktion'),
+('Fakta'),
 ('Mysterier'),
 ('Fantasy'),
 ('Science Fiction'),
@@ -70,8 +70,6 @@ INSERT INTO genres (genreName) VALUES
 ('Historiska romaner'),
 ('Romantik'),
 ('Ungdomslitteratur');
-
-SELECT * from genres;
 
 INSERT INTO books (bookTitle, bookAuthor, bookISBN, bookImage, bookDescription, bookReleaseYear, bookLanguage) VALUES
 ('The Great Gatsby', 'F. Scott Fitzgerald', '9780743273565', 'https://bilder.akademibokhandeln.se/images_akb/9781847496140_383/the-great-gatsby', 'Det är sommaren 1922 och Nick Carraway flyttar till ett yrvaket New York för att göra karriär. I West Egg på Long Island hyr han en villa intill ett av öns mest praktfulla hus. Ett sagolikt palats under vildvuxen murgröna. Från dess blå trädgård hörs musik nätterna igenom och stadens societet kommer och går i en aldrig sinande ström. Festerna är magnifika, de är omtalade, oändliga, men ingen tyckts veta vem mannen bakom dem egentligen är. En tidig lördagsmorgon står en uniformsklädd herre på Nicks gräsmatta. Med sig har han en handskriven inbjudan, undertecknad Jay Gatsby.', 1925, 'Engelska'),
@@ -92,26 +90,27 @@ INSERT INTO books (bookTitle, bookAuthor, bookISBN, bookImage, bookDescription, 
 ('The Hobbit', 'J.R.R. Tolkien', '9780345339683', 'https://bilder.akademibokhandeln.se/images_akb/9780261102217_383/the-hobbit', 'The popular paperback edition of J.R.R. Tolkien''s classic masterpiece, illustrated for the first time with Tolkien''s own painting originally created by him for the first edition, and featuring brand new reproductions of all his drawings and maps. The Hobbit is a tale of high adventure, undertaken by a company of dwarves in search of dragon-guarded gold. A reluctant partner in this perilous quest is Bilbo Baggins, a comfort-loving unambitious hobbit, who surprises even himself by his resourcefulness and skill as a burglar. Encounters with trolls, goblins, dwarves, elves and giant spiders, conversations with the dragon, Smaug, and a rather unwilling presence at the Battle of Five Armies are just some of the adventures that befall Bilbo. Bilbo Baggins has taken his place among the ranks of the immortals of children''s fiction. Written by Professor Tolkien for his own children, The Hobbit met with instant critical acclaim when published.', 1937, 'Engelska'),
 ('The Alchemist', 'Paulo Coelho', '9780062315007', 'https://bilder.akademibokhandeln.se/images_akb/9780008144227_383/the-alchemist', 'A global phenomenon, The Alchemist has been read and loved by over 62 million readers, topping bestseller lists in 74 countries worldwide. Now this magical fable is beautifully repackaged in an edition that lovers of Paulo Coelho will want to treasure forever. Every few decades a book is published that changes the lives of its readers forever. This is such a book a beautiful parable about learning to listen to your heart, read the omens strewn along life''s path and, above all, follow your dreams. Santiago, a young shepherd living in the hills of Andalucia, feels that there is more to life than his humble home and his flock. One day he finds the courage to follow his dreams into distant lands, each step galvanised by the knowledge that he is following the right path: his own. The people he meets along the way, the things he sees and the wisdom he learns are life-changing. With Paulo Coelho''s visionary blend of spirituality, magical realism and folklore, The Alchemist is a story with the power to inspire nations and change people''s lives.', 1988, 'Engelska');
 
-SELECT * from books;
-
 INSERT INTO bookGenres (bookGenreBookId, bookGenreGenreId) VALUES
 (1, 1),
+(1, 9),
 (2, 2),
 (3, 3),
+(4, 3),
 (4, 4),
+(4, 5),
+(4, 10),
 (5, 5),
 (6, 6),
 (7, 7),
 (8, 8),
 (9, 9),
+(9, 10),
 (10, 10),
 (11, 1),
 (12, 6),
 (13, 3),
 (14, 4),
 (15, 2);
-
-SELECT * from bookGenres;
 
 INSERT INTO users (userFullName, userEmail, userProfilePicture, useruserName, userPassword) VALUES
 ('Erik Svensson', 'erik.svensson@email.com', NULL, 'erik.svensson', 'password123'),
@@ -123,15 +122,21 @@ INSERT INTO users (userFullName, userEmail, userProfilePicture, useruserName, us
 ('Hanna Berg', 'hanna.berg@email.com', NULL, 'hanna.berg', 'password123'),
 ('Johan Larsson', 'johan.larsson@email.com', NULL, 'johan.larsson', 'password123');
 
-SELECT * from users;
+-- INSERT INTO reviews (reviewContent, reviewUserId, reviewBookId)
+-- VALUES ('Det här är en fantastisk bok!', 1, 1);
 
-INSERT INTO reviews (reviewContent, reviewUserId, reviewBookId)
-VALUES ('Det här är en fantastisk bok!', 1, 1);
+-- INSERT INTO reviews (reviewContent, reviewUserId, reviewBookId)
+-- VALUES ('Grym bok!', 2, 1);
 
-INSERT INTO reviews (reviewContent, reviewUserId, reviewBookId)
-VALUES ('Grym bok!', 2, 1);
-
-SELECT * FROM reviews;
+INSERT INTO reviews (reviewContent, reviewUserId, reviewBookId) VALUES
+('Det här är en fantastisk bok! En klassiker som aldrig går ur tiden.', 1, 1),
+('Fängslande och gripande. En bok som verkligen får en att tänka efter.', 2, 1),
+('En riktigt bra bok, men den var förutsägbar på vissa ställen.', 1, 3),
+('Jag älskade denna bok! En riktig bladvändare.', 2, 3),
+('Magisk värld! Älskar verkligen Harry Potter-serien.', 1, 4),
+('En bra start på en fantastisk serie. Perfekt för alla som älskar fantasy.', 2, 4),
+('En av de bästa science fiction-böckerna jag har läst.', 1, 5),
+('Mycket komplex och tänkvärd. Dune är ett måste för alla sci-fi-fans!', 2, 5);
 
 
 -- Select all reviews conected to specific book
