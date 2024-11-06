@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function Footer() {
   return (
@@ -7,12 +7,12 @@ export default function Footer() {
         className="text-center m-0 pt-5"
         style={{
           fontSize: 12,
-          backgroundColor: "#F2E9DC",
+          backgroundColor: '#606D5D',
         }}
       >
         Skolprojekt av JSU23 It-Högskolan. Information och bilder hämtade från
         akademibokhandeln.se.
       </p>
     </footer>
-  );
+  )
 }
