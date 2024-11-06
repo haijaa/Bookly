@@ -70,16 +70,29 @@ app.get("/api/books/:id", async (request, response) => {
 });
 
 app.post("/api/reviews", async (request, response) => {
-  const { reviewContent, revuewUserId, reviewBookId } = request.body;
+  const { reviewContent, reviewUserId, reviewBookId } = request.body;
   try {
     const { rows } = await client.query(
       "INSERT INTO reviews (reviewContent, revuewUserId , reviewBookId) VALUES ($1, $2, $3)",
-      [reviewContent, revuewUserId, reviewBookId],
+      [reviewContent, reviewUserId, reviewBookId],
     );
-    response.status(201).json(rows[0]);
+    response.status(200).json("Added:", rows[0]);
   } catch (error) {
     console.log("Error: ", error);
     response.status(500).send("Error on serverside");
+  }
+});
+
+app.delete("/api/reviews/:bookId", async (request, response) => {
+  const { reviewId } = request.body;
+  try {
+    const { rows } = await client.query(
+      "DELETE FROM reviews WHERE reviewId = $1",
+      [reviewId],
+    );
+    response.status(200).json("Review deleted");
+  } catch (error) {
+    response.status(500).json("Error on serverside");
   }
 });
 
