@@ -5,6 +5,7 @@ import Bookshelf from "./pages/Bookshelf";
 import Settings from "./pages/Settings";
 import Login from "./components/LoginForm";
 import { createHashRouter, Outlet, RouterProvider } from "react-router-dom";
+import SingleBook from "./components/SingleBooks";
 
 function MyComponent() {
   const router = createHashRouter([
@@ -13,6 +14,10 @@ function MyComponent() {
         {
           element: <Home />,
           path: "/",
+        },
+        {
+          element: <SingleBook />,
+          path: "/books/:paramId",
         },
         {
           element: <Login />,

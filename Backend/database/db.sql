@@ -20,7 +20,7 @@ CREATE TABLE users (
   userId serial PRIMARY KEY,
   userFullName VARCHAR(50) NOT NULL,
   userEmail VARCHAR(50) UNIQUE NOT NULL,
-  userProfilePicture VARCHAR(250), -- maybe change
+  userProfilePicture VARCHAR(250),
   useruserName VARCHAR(50) UNIQUE NOT NULL ,
   userPassword VARCHAR(50) NOT NULL
 );
@@ -124,3 +124,57 @@ INSERT INTO users (userFullName, userEmail, userProfilePicture, useruserName, us
 ('Johan Larsson', 'johan.larsson@email.com', NULL, 'johan.larsson', 'password123');
 
 SELECT * from users;
+
+INSERT INTO reviews (reviewContent, reviewUserId, reviewBookId)
+VALUES ('Det här är en fantastisk bok!', 1, 1);
+
+INSERT INTO reviews (reviewContent, reviewUserId, reviewBookId)
+VALUES ('Grym bok!', 2, 1);
+
+SELECT * FROM reviews;
+
+
+-- Select all reviews conected to specific book
+SELECT
+    reviews.reviewId,
+    reviews.reviewContent,
+    reviews.created_at,
+    users.userFullName,
+    users.useruserName
+FROM
+    reviews
+JOIN
+    users ON reviews.reviewUserId = users.userId
+WHERE
+    reviews.reviewBookId = 1;
+
+
+SELECT
+    books.bookId,
+    books.bookTitle,
+    books.bookAuthor,
+    books.bookISBN,
+    books.bookImage,
+    books.bookDescription,
+    books.bookReleaseYear,
+    books.bookLanguage,
+    reviews.reviewId,
+    reviews.reviewContent,
+    reviews.created_at AS reviewCreatedAt,
+    users.userId AS reviewUserId,
+    users.userFullName AS reviewUserFullName,
+    users.useruserName AS reviewUserUsername,
+    genres.genreId,
+    genres.genreName
+FROM
+    books
+LEFT JOIN
+    reviews ON books.bookId = reviews.reviewBookId
+LEFT JOIN
+    users ON reviews.reviewUserId = users.userId
+LEFT JOIN
+    bookGenres ON books.bookId = bookGenres.bookGenreBookId
+LEFT JOIN
+    genres ON bookGenres.bookGenreGenreId = genres.genreId
+WHERE
+    books.bookId = 1;
