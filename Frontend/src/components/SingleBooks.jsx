@@ -1,27 +1,33 @@
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import '../index.css'
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import "../index.css";
 
 export default function SingleBook() {
-  let { paramId } = useParams()
-  const [specificBook, setSpecificBook] = useState([])
+  let { paramId } = useParams();
+  const [specificBook, setSpecificBook] = useState([]);
 
   const getSpecificBook = async (id) => {
     await fetch(`http://localhost:3000/api/books/${id}`)
       .then((response) => response.json())
-      .then((result) => setSpecificBook(result))
-  }
+      .then((result) => setSpecificBook(result));
+  };
 
   const convertDate = (x) => {
-    let date = new Date(x)
-    return date.toLocaleDateString().split('T')[0]
-  }
+    let date = new Date(x);
+    const options = {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    };
+    return date.toLocaleDateString("sv-SE", options);
+  };
 
   useEffect(() => {
     if (paramId) {
-      getSpecificBook(paramId)
+      getSpecificBook(paramId);
     }
-  }, [paramId])
+  }, [paramId]);
 
   return (
     <>
@@ -32,7 +38,7 @@ export default function SingleBook() {
               <img
                 src={book.bookimage}
                 alt={book.booktitle}
-                style={{ height: '500px', width: '350px' }}
+                style={{ height: "500px", width: "350px" }}
                 className="img-fluid"
               />
 
@@ -41,9 +47,9 @@ export default function SingleBook() {
                 <h2 className="fs-4 pb-3">{book.bookauthor}</h2>
                 <p
                   style={{
-                    maxHeight: '65%',
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
+                    maxHeight: "65%",
+                    overflowY: "auto",
+                    overflowX: "hidden",
                   }}
                 >
                   {book.bookdescription}
@@ -64,7 +70,7 @@ export default function SingleBook() {
             </div>
             <div
               className="w-100 d-flex justify-content-center pb-5"
-              style={{ backgroundColor: '#606D5D' }}
+              style={{ backgroundColor: "#606D5D" }}
             >
               <div className="d-flex flex-column pt-5 w-50 align-items-center">
                 <h3 className="fs-1 pb-5 white-text ">Recensioner</h3>
@@ -73,7 +79,7 @@ export default function SingleBook() {
                     <div
                       key={review.reviewId}
                       className="rounded mb-3 w-75 py-2 px-4"
-                      style={{ backgroundColor: '#F2E9DC' }}
+                      style={{ backgroundColor: "#F2E9DC" }}
                     >
                       <div className="d-flex justify-content-between">
                         <p className="fw-semibold">
@@ -93,5 +99,5 @@ export default function SingleBook() {
         ))}
       </div>
     </>
-  )
+  );
 }
