@@ -1,55 +1,35 @@
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Image from "react-bootstrap/Image";
-import profileImage from "../assets/booklyOwl.webp";
 import { useState } from "react";
+import Form from "react-bootstrap/Form";
+import PropTypes from "prop-types";
 
-export default function UserForm() {
-  const [validated, setValidated] = useState(false);
+UserForm.propTypes = {
+  validated: PropTypes.bool,
+};
+
+export default function UserForm(props) {
   const [password, setPassword] = useState(""),
     [password2, setPassword2] = useState("");
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    setValidated(true);
-  };
-
   return (
-    <Form
-      className="container p-3 d-flex flex-column w-25"
-      noValidate
-      validated={validated}
-      onSubmit={handleSubmit}
-    >
-      <Form.Group className="mb-3 text-center">
-        <Image
-          className="mb-3"
-          id="basic-nav-dropdown"
-          src={profileImage}
-          roundedCircle
-          style={{ width: "100%" }}
-        />
-        <Button variant="light">Ändra profilbild</Button>
-      </Form.Group>
-
+    <>
       <Form.Group className="mb-3">
         <Form.Label>Namn</Form.Label>
-        <Form.Control required type="name" placeholder="För- och efternamn" />
+        <Form.Control required name="name" placeholder="För- och efternamn" />
       </Form.Group>
 
       <Form.Group className="mb-3">
         <Form.Label>E-postadress</Form.Label>
-        <Form.Control required type="email" placeholder="E-postadress" />
+        <Form.Control
+          required
+          type="email"
+          name="email"
+          placeholder="E-postadress"
+        />
       </Form.Group>
 
       <Form.Group className="mb-3">
         <Form.Label>Användarnamn</Form.Label>
-        <Form.Control required type="username" placeholder="Användarnamn" />
+        <Form.Control required name="username" placeholder="Användarnamn" />
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -57,6 +37,7 @@ export default function UserForm() {
         <Form.Control
           required
           type="password"
+          name="password"
           placeholder="Lösenord"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -78,15 +59,11 @@ export default function UserForm() {
         </Form.Control.Feedback>
       </Form.Group>
 
-      {validated && (
+      {props.validated && (
         <p className="mb-3 text-center text-danger">
           Vänligen fyll i samtliga fält
         </p>
       )}
-
-      <Button variant="primary" type="submit">
-        Skicka
-      </Button>
-    </Form>
+    </>
   );
 }
