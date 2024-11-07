@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { useNavigate } from 'react-router-dom'
 
 export default function AllBooks() {
-  const [books, setBooks] = useState([]);
-  const navigate = useNavigate();
+  const [books, setBooks] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/books")
+    fetch('http://localhost:3000/api/books')
       .then((response) => response.json())
-      .then((result) => setBooks(result));
-  }, []);
+      .then((result) => setBooks(result))
+  }, [])
 
   return (
     <div className="container py-5">
@@ -21,15 +21,16 @@ export default function AllBooks() {
             className="col-12 col-md-6 col-lg-4 mb-5 mt-5 d-flex justify-content-center"
           >
             <div
-              className="card shadow"
-              style={{ width: "285px", backgroundColor: "#F2E9DC" }}
+              className="card shadow "
+              style={{ width: '285px', backgroundColor: '#F2E9DC' }}
             >
               <img
                 src={book.bookimage}
-                className="card-img-top"
+                className="card-img-top pe"
                 alt={book.booktitle}
-                style={{ height: "450px", objectFit: "cover" }}
+                style={{ height: '450px', objectFit: 'cover' }}
                 onClick={() => navigate(`/books/${book.bookid}`)}
+                role="button"
               />
               <div className="card-body text-center">
                 <h5 className="card-title">{book.booktitle}</h5>
@@ -40,5 +41,5 @@ export default function AllBooks() {
         ))}
       </div>
     </div>
-  );
+  )
 }
