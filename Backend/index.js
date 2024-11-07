@@ -105,7 +105,7 @@ app.post("/api/users", async (request, response) => {
   const { userFullName, userEmail, userUserName, userPassword } = request.body;
   try {
     const { rows } = await client.query(
-      "INSERT INTO users (userFullname, userEmail, userUserName, userPassword) VALUES ($1, $2, $3, $4);",
+      "INSERT INTO users (userFullname, userEmail, userUserName, userPassword) VALUES ($1, $2, $3, $4) RETURNING *;",
       [userFullName, userEmail, userUserName, userPassword],
     );
     response
