@@ -22,11 +22,12 @@ export default function LoginForm() {
       formData = new FormData(event.target),
       formValues = Object.fromEntries(formData.entries());
 
-    createUser(formValues);
+    console.log(formValues);
 
     if (form.checkValidity() === false) {
       setValidateRegister(true);
     } else {
+      createUser(formValues);
       setValidateRegister(false);
     }
   };

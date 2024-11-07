@@ -5,28 +5,29 @@ import UserContext from "../context/userContext";
 
 UserForm.propTypes = {
   validated: PropTypes.bool,
+  changedUser: PropTypes.bool,
 };
 
 export default function UserForm(props) {
   const [password, setPassword] = useState(""),
     [password2, setPassword2] = useState(""),
     { user } = useContext(UserContext),
-    [userValues, setUserValues] = useState({});
+    [userName, setUserName] = useState(""),
+    [userFullName, setUserFullName] = useState(""),
+    [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
     if (user) {
-      setUserValues(user);
+      setUserName(user.userusername);
+      setUserFullName(user.userfullname);
+      setUserEmail(user.useremail);
     }
   }, [user]);
 
-  const handleChange = (e) => {
-    console.log(e);
-    const { name, value } = e.target;
-    setUserValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  };
+  useEffect(() => {
+    setPassword("");
+    setPassword2("");
+  }, [props.changedUser]);
 
   return (
     <>
@@ -36,8 +37,8 @@ export default function UserForm(props) {
           required
           name="name"
           placeholder="För- och efternamn"
-          value={userValues.userfullname || ""}
-          onChange={handleChange}
+          value={userFullName}
+          onChange={(e) => setUserFullName(e.target.value)}
         />
       </Form.Group>
 
@@ -48,8 +49,8 @@ export default function UserForm(props) {
           type="email"
           name="email"
           placeholder="E-postadress"
-          value={userValues.useremail || ""}
-          onChange={handleChange}
+          value={userEmail}
+          onChange={(e) => setUserEmail(e.target.value)}
         />
       </Form.Group>
 
@@ -59,8 +60,8 @@ export default function UserForm(props) {
           required
           name="username"
           placeholder="Användarnamn"
-          value={userValues.userusername || ""}
-          onChange={handleChange}
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
         />
       </Form.Group>
 
