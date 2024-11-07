@@ -105,7 +105,7 @@ app.post("/api/users", async (request, response) => {
   const { userFullName, userEmail, userUserName, userPassword } = request.body;
   try {
     const { rows } = await client.query(
-      "INSERT INTO users (userFullname, userEmail, userUserName, userPassword) VALUES ($1, $2, $3, $4);",
+      "INSERT INTO users (userFullname, userEmail, userUserName, userPassword) VALUES ($1, $2, $3, $4) RETURNING *;",
       [userFullName, userEmail, userUserName, userPassword],
     );
     response
@@ -135,7 +135,7 @@ app.put("/api/users", async (request, response) => {
           userEmail = $2,
           userUserName = $3,
           userPassword = $4,
-          userProfilePicture = $5 WHERE userId = $6;`,
+          userProfilePicture = $5 WHERE userId = $6 RETURNING *;`,
       [
         userFullName,
         userEmail,
@@ -161,7 +161,7 @@ app.delete("/api/users", async (request, response) => {
   const { userId } = request.body;
   try {
     const { rows } = await client.query(
-      "DELETE FROM users WHERE userId = $1;",
+      "DELETE FROM users WHERE userId = $1 RETURNING *;",
       [userId],
     );
     response

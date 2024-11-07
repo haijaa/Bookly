@@ -3,11 +3,15 @@ import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import Bookshelf from "./pages/Bookshelf";
 import Settings from "./pages/Settings";
-import Login from "./components/LoginForm";
+import Login from "./pages/Login";
 import { createHashRouter, Outlet, RouterProvider } from "react-router-dom";
 import SingleBook from "./components/SingleBooks";
+import { useContext } from "react";
+import { UserContext } from "./context/userContext";
 
 function MyComponent() {
+  const { user } = useContext(UserContext);
+
   const router = createHashRouter([
     {
       children: [
@@ -33,7 +37,7 @@ function MyComponent() {
         },
       ],
 
-      element: (
+      element: user ? (
         <>
           <NavBar />
           <main className="min-vh-100" style={{ backgroundColor: "#F2E9DC" }}>
@@ -41,6 +45,8 @@ function MyComponent() {
           </main>
           <Footer />
         </>
+      ) : (
+        <Login />
       ),
     },
   ]);
