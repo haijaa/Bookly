@@ -1,3 +1,43 @@
 .white-text {
   color: #f2e9dc;
 }
+
+.hover {
+  cursor: pointer;
+}
+
+.link-start {
+  color: var(--primary-color);
+}
+
+.beige-background {
+  background-color: #f2e9dc;
+}
+
+.nav-link:hover {
+  color: black;
+}
+
+:root {
+  --primary-color: #606d5d;
+  --bs-nav-pills-link-active-color: #f2e9dc;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active {
+  background-color: var(--primary-color) !important;
+  border: 0;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: var(--bs-nav-pills-link-active-color);
+  background-color: var(--primary-color);
+}
+
+.emilys-candy-regular {
+  font-family: "Emilys Candy", serif;
+  font-weight: 400;
+  font-style: normal;
+}

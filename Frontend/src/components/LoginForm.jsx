@@ -54,7 +54,7 @@ export default function LoginForm() {
         const foundUser = result.find(
           (user) =>
             user.userusername === input.username &&
-            user.userpassword === input.password,
+            user.userpassword === input.password
         );
 
         if (foundUser) {
@@ -84,19 +84,23 @@ export default function LoginForm() {
 
   return (
     <div className="container p-3 d-flex flex-column w-25">
-      <h1 className="text-center m-5">Bookly</h1>
+      <h1 className="text-center m-5 emilys-candy-regular pb-5">Bookly</h1>
       <ul className="nav nav-pills mb-3 d-flex flex-row justify-content-between">
         <li className="nav-item">
           <button
-            className={`nav-link ${activeTab === "login" ? "active" : ""}`}
+            className={`nav-link ${
+              activeTab === "login" ? "active" : ""
+            } link-start`}
             onClick={() => handleTabClick("login")}
           >
             Logga in
           </button>
         </li>
-        <li className="nav-item">
+        <li className="nav-item ">
           <button
-            className={`nav-link ${activeTab === "register" ? "active" : ""}`}
+            className={`nav-link ${
+              activeTab === "register" ? "active" : ""
+            } link-start`}
             onClick={() => handleTabClick("register")}
           >
             Registrera ny användare
@@ -132,14 +136,6 @@ export default function LoginForm() {
               />
             </Form.Group>
 
-            <div className="d-flex justify-content-between mx-4 mb-4">
-              <div>
-                <input className="me-2" type="checkbox" id="rememberMe" />
-                <label htmlFor="rememberMe">Kom ihåg mig</label>
-              </div>
-              <a href="#!">Glömt lösenord?</a>
-            </div>
-
             {validateLogin && (
               <p className="mb-3 text-center text-danger">
                 Vänligen skriv in användarnamn och lösenord
@@ -151,9 +147,9 @@ export default function LoginForm() {
             </Button>
           </Form>
           <p className="text-center">
-            Har du inget konto? {/* Redigera länken här sen! */}
+            Har du inget konto?
             <a
-              href="/books/2?#/my-bookshelf"
+              className="text-primary hover ps-3"
               onClick={() => handleTabClick("register")}
             >
               Registrera dig
