@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import PropTypes from "prop-types";
 import UserContext from "../context/userContext";
+import "../index.css";
 
 UserForm.propTypes = {
   validated: PropTypes.bool,
