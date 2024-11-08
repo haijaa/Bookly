@@ -40,7 +40,7 @@ function MyComponent() {
       element: user ? (
         <>
           <NavBar />
-          <main className="min-vh-100" style={{ backgroundColor: "#F2E9DC" }}>
+          <main className="min-vh-100 beige-background">
             <Outlet />
           </main>
           <Footer />
