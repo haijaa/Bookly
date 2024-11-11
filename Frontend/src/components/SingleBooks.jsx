@@ -98,9 +98,7 @@ export default function SingleBook() {
                 <div className="mt-auto">
                   <p className="m-0">
                     <span className="fw-semibold ">Kategorier: </span>
-                    {book.genres.map((genre) => (
-                      <span key={genre.genreId}>{genre.genreName}</span>
-                    ))}
+                    {book.genres.map((genre) => genre.genreName).join(", ")}
                   </p>
                   <p className="m-0">
                     <span className="fw-semibold">Språk: </span>
@@ -169,7 +167,10 @@ export default function SingleBook() {
                     value={userReview}
                     onChange={(e) => setUserReview(e.target.value)}
                   />
-                  <Button className="mt-3 ms-1" onClick={() => postReview()}>
+                  <Button
+                    className="mt-3 ms-1 float-end"
+                    onClick={() => postReview()}
+                  >
                     Skicka
                   </Button>
                 </div>
