@@ -1,0 +1,32 @@
+services:
+  database:
+    image: postgres
+    container_name: postgres_service
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=secret
+    healthcheck:
+      test: ["pg_isready", "--username=postgres"]
+      interval: 1s
+  backend:
+    build: 
+      context: backend
+      dockerfile: Dockerfile
+    container_name: backend_service
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - PGURI=postgres://postgres:secret@database/postgres
+    ports:
+      - "3000:3000"
+  frontend:
+    build: 
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: frontend_service
+    depends_on:
+      - backend
+    ports:
+      - "5000:5000"
