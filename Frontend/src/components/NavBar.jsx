@@ -6,7 +6,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import profileImage from "../assets/booklyOwl.webp";
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
-import UserContext from "../context/userContext";
+import UserContext from "../context/UserContext";
 import "../index.css";
 
 export default function NavBar() {
