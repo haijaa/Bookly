@@ -1,4 +1,4 @@
-CREATE DATABASE bookly;
+
 
 CREATE TABLE genres (
   genreId serial PRIMARY KEY,
