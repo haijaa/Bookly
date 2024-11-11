@@ -4,7 +4,7 @@ export default function Login() {
   return (
     <div
       className="d-flex align-items-center beige-background"
-      style={{ height: "100%" }}
+      style={{ height: "100vh" }}
     >
       <LoginForm />
     </div>
