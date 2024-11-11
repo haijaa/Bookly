@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import profileImage from "../assets/booklyOwl.webp";
 import UserForm from "../components/UserForm";
-import UserContext from "../context/userContext";
+import UserContext from "../context/UserContext";
 import Modal from "react-bootstrap/Modal";
 import ToastNotification from "../components/ToastNotification";
 

@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import UserForm from "./UserForm";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import UserContext from "../context/userContext";
+import UserContext from "../context/UserContext";
 
 export default function LoginForm() {
   const [activeTab, setActiveTab] = useState("login"),

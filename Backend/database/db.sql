@@ -52,12 +52,6 @@ CREATE TABLE userBooks (
   FOREIGN KEY (userBookBookId) REFERENCES books(bookId)
 );
 
-DROP TABLE userBooks;
-DROP TABLE bookGenres;
-DROP TABLE reviews;
-DROP TABLE users;
-DROP TABLE books;
-DROP TABLE genres;
 
 INSERT INTO genres (genreName) VALUES
 ('Fiktion'),
@@ -122,12 +116,6 @@ INSERT INTO users (userFullName, userEmail, userProfilePicture, useruserName, us
 ('Hanna Berg', 'hanna.berg@email.com', NULL, 'hanna.berg', 'password123'),
 ('Johan Larsson', 'johan.larsson@email.com', NULL, 'johan.larsson', 'password123');
 
--- INSERT INTO reviews (reviewContent, reviewUserId, reviewBookId)
--- VALUES ('Det här är en fantastisk bok!', 1, 1);
-
--- INSERT INTO reviews (reviewContent, reviewUserId, reviewBookId)
--- VALUES ('Grym bok!', 2, 1);
-
 INSERT INTO reviews (reviewContent, reviewUserId, reviewBookId) VALUES
 ('Det här är en fantastisk bok! En klassiker som aldrig går ur tiden.', 1, 1),
 ('Fängslande och gripande. En bok som verkligen får en att tänka efter.', 2, 1),
@@ -137,49 +125,3 @@ INSERT INTO reviews (reviewContent, reviewUserId, reviewBookId) VALUES
 ('En bra start på en fantastisk serie. Perfekt för alla som älskar fantasy.', 2, 4),
 ('En av de bästa science fiction-böckerna jag har läst.', 1, 5),
 ('Mycket komplex och tänkvärd. Dune är ett måste för alla sci-fi-fans!', 2, 5);
-
-
--- Select all reviews conected to specific book
-SELECT
-    reviews.reviewId,
-    reviews.reviewContent,
-    reviews.created_at,
-    users.userFullName,
-    users.useruserName
-FROM
-    reviews
-JOIN
-    users ON reviews.reviewUserId = users.userId
-WHERE
-    reviews.reviewBookId = 1;
-
-
-SELECT
-    books.bookId,
-    books.bookTitle,
-    books.bookAuthor,
-    books.bookISBN,
-    books.bookImage,
-    books.bookDescription,
-    books.bookReleaseYear,
-    books.bookLanguage,
-    reviews.reviewId,
-    reviews.reviewContent,
-    reviews.created_at AS reviewCreatedAt,
-    users.userId AS reviewUserId,
-    users.userFullName AS reviewUserFullName,
-    users.useruserName AS reviewUserUsername,
-    genres.genreId,
-    genres.genreName
-FROM
-    books
-LEFT JOIN
-    reviews ON books.bookId = reviews.reviewBookId
-LEFT JOIN
-    users ON reviews.reviewUserId = users.userId
-LEFT JOIN
-    bookGenres ON books.bookId = bookGenres.bookGenreBookId
-LEFT JOIN
-    genres ON bookGenres.bookGenreGenreId = genres.genreId
-WHERE
-    books.bookId = 1;

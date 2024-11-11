@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import "../index.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import UserContext from "../context/userContext";
+import UserContext from "../context/UserContext";
 import { Icon } from "@mdi/react";
 import { mdiTrashCanOutline } from "@mdi/js";
 
