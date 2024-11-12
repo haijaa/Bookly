@@ -72,10 +72,13 @@ export default function SingleBook() {
 
   return (
     <>
-      <div className="d-flex flex-column justify-content-center align-items-center pt-5">
+      <div
+        className="d-flex flex-column justify-content-between align-items-center pt-5 "
+        style={{ minHeight: "100vh" }}
+      >
         {specificBook.map((book) => (
           <>
-            <div key={book.bookisbn} className="d-flex w-75 mb-5">
+            <div key={book.bookisbn} className="d-flex w-75 mb-5 py-5">
               <img
                 src={book.bookimage}
                 alt={book.booktitle}
@@ -108,7 +111,7 @@ export default function SingleBook() {
               </div>
             </div>
             <div
-              className="w-100 d-flex justify-content-center pb-5"
+              className="w-100 d-flex justify-content-center pb-5 flex-grow-1"
               style={{ backgroundColor: "#606D5D" }}
             >
               <div className="d-flex flex-column pt-5 w-50 align-items-center">

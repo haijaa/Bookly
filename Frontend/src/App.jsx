@@ -1,13 +1,13 @@
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
-import Home from "./pages/Home";
-import Bookshelf from "./pages/Bookshelf";
-import Settings from "./pages/Settings";
-import Login from "./pages/Login";
 import { createHashRouter, Outlet, RouterProvider } from "react-router-dom";
-import SingleBook from "./components/SingleBooks";
-import { useContext } from "react";
+import { useContext, lazy, Suspense } from "react";
 import { UserContext } from "./context/UserContext";
+
+const Home = lazy(() => import("./pages/Home.jsx"));
+const SingleBook = lazy(() => import("./pages/SingleBooks.jsx"));
+const Login = lazy(() => import("./pages/Login.jsx"));
+const Settings = lazy(() => import("./pages/Settings.jsx"));
 
 function MyComponent() {
   const { user } = useContext(UserContext);
@@ -16,23 +16,36 @@ function MyComponent() {
     {
       children: [
         {
-          element: <Home />,
+          element: (
+            <Suspense fallback={<p>Laddar...</p>}>
+              <Home />
+            </Suspense>
+          ),
           path: "/",
         },
         {
-          element: <SingleBook />,
+          element: (
+            <Suspense fallback={<p>Laddar...</p>}>
+              <SingleBook />
+            </Suspense>
+          ),
           path: "/books/:paramId",
         },
         {
-          element: <Login />,
+          element: (
+            <Suspense fallback={<p>Laddar...</p>}>
+              <Login />
+            </Suspense>
+          ),
           path: "/login",
         },
+
         {
-          element: <Bookshelf />,
-          path: "/my-bookshelf",
-        },
-        {
-          element: <Settings />,
+          element: (
+            <Suspense fallback={<p>Laddar...</p>}>
+              <Settings />
+            </Suspense>
+          ),
           path: "/settings",
         },
       ],
