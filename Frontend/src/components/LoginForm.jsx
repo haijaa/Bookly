@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import UserContext from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import DataProtectionPolicy from './DataProtectionPolicy'
 
 export default function LoginForm() {
   const [activeTab, setActiveTab] = useState('login'),
@@ -12,7 +14,8 @@ export default function LoginForm() {
     [validateLogin, setValidateLogin] = useState(false),
     [conditions, setConditions] = useState(false),
     { setUser } = useContext(UserContext),
-    navigate = useNavigate()
+    navigate = useNavigate(),
+    [showGDPRModal, setShowGDPRModal] = useState(false)
 
   const handleTabClick = (tab) => {
     setActiveTab(tab)
@@ -175,12 +178,17 @@ export default function LoginForm() {
             <input
               className="me-3"
               type="checkbox"
-              id="agreeTerms"
               value={conditions}
               onChange={() => setConditions(!conditions)}
             />
-            <label htmlFor="agreeTerms">
-              Jag har läst och accepterat användarvillkoren
+            <label>
+              Jag har läst och accepterat{' '}
+              <a
+                className="text-primary hover ps-3"
+                onClick={() => setShowGDPRModal(true)}
+              >
+                användarvillkoren
+              </a>
             </label>
           </div>
 
@@ -192,6 +200,11 @@ export default function LoginForm() {
           >
             Skapa användare
           </Button>
+
+          <DataProtectionPolicy
+            showModal={showGDPRModal}
+            onClose={() => setShowGDPRModal(false)}
+          />
         </Form>
       )}
     </div>
