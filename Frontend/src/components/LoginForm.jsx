@@ -1,15 +1,17 @@
-import { useContext, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import UserForm from "./UserForm";
-import Form from "react-bootstrap/Form";
+import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import UserContext from "../context/UserContext";
+import DataProtectionPolicy from "./DataProtectionPolicy";
+import UserForm from "./UserForm";
 
 export default function LoginForm() {
   const [activeTab, setActiveTab] = useState("login"),
     [validateRegister, setValidateRegister] = useState(false),
     [validateLogin, setValidateLogin] = useState(false),
     [conditions, setConditions] = useState(false),
+    [showGDPRModal, setShowGDPRModal] = useState(false),
     { setUser } = useContext(UserContext);
 
   const handleTabClick = (tab) => {
@@ -54,7 +56,7 @@ export default function LoginForm() {
         const foundUser = result.find(
           (user) =>
             user.userusername === input.username &&
-            user.userpassword === input.password
+            user.userpassword === input.password,
         );
 
         if (foundUser) {
@@ -171,12 +173,17 @@ export default function LoginForm() {
             <input
               className="me-3"
               type="checkbox"
-              id="agreeTerms"
               value={conditions}
               onChange={() => setConditions(!conditions)}
             />
-            <label htmlFor="agreeTerms">
-              Jag har läst och accepterat användarvillkoren
+            <label>
+              Jag har läst och accepterat{" "}
+              <a
+                className="text-primary hover ps-3"
+                onClick={() => setShowGDPRModal(true)}
+              >
+                användarvillkoren
+              </a>
             </label>
           </div>
 
@@ -188,6 +195,11 @@ export default function LoginForm() {
           >
             Skapa användare
           </Button>
+
+          <DataProtectionPolicy
+            showModal={showGDPRModal}
+            onClose={() => setShowGDPRModal(false)}
+          />
         </Form>
       )}
     </div>
