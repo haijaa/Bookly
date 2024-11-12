@@ -12,7 +12,8 @@ export default function LoginForm() {
     [validateLogin, setValidateLogin] = useState(false),
     [conditions, setConditions] = useState(false),
     [showGDPRModal, setShowGDPRModal] = useState(false),
-    { setUser } = useContext(UserContext);
+    { setUser } = useContext(UserContext),
+    [errorMessage, setErrorMessage] = useState("");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -23,8 +24,6 @@ export default function LoginForm() {
     const form = event.currentTarget,
       formData = new FormData(event.target),
       formValues = Object.fromEntries(formData.entries());
-
-    console.log(formValues);
 
     if (form.checkValidity() === false) {
       setValidateRegister(true);
@@ -56,7 +55,7 @@ export default function LoginForm() {
         const foundUser = result.find(
           (user) =>
             user.userusername === input.username &&
-            user.userpassword === input.password,
+            user.userpassword === input.password
         );
 
         if (foundUser) {
@@ -66,22 +65,34 @@ export default function LoginForm() {
   };
 
   const createUser = async (input) => {
-    await fetch("http://localhost:3000/api/users", {
-      body: JSON.stringify({
-        userFullName: input.name,
-        userUserName: input.username,
-        userPassword: input.password,
-        userEmail: input.email,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setUser(result.user);
+    try {
+      const response = await fetch("http://localhost:3000/api/users", {
+        body: JSON.stringify({
+          userFullName: input.name,
+          userUserName: input.username,
+          userPassword: input.password,
+          userEmail: input.email,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
       });
+      const result = await response.json();
+      if (response.ok) {
+        setUser(result.user);
+      } else {
+        if (result.message === "användarnamn") {
+          setErrorMessage(result.error);
+        } else if (result.message === "email") {
+          setErrorMessage(result.error);
+        } else {
+          console.log(result.error);
+        }
+      }
+    } catch (error) {
+      console.log("Error during user creation:", error);
+    }
   };
 
   return (
@@ -167,7 +178,7 @@ export default function LoginForm() {
           validated={validateRegister}
           onSubmit={handleSubmitRegister}
         >
-          <UserForm validated={validateRegister} />
+          <UserForm validated={validateRegister} errorMessage={errorMessage} />
 
           <div className="d-flex justify-content-center mb-4">
             <input

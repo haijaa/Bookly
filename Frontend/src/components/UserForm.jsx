@@ -7,6 +7,7 @@ import "../index.css";
 UserForm.propTypes = {
   validated: PropTypes.bool,
   changedUser: PropTypes.bool,
+  errorMessage: PropTypes.string,
 };
 
 export default function UserForm(props) {
@@ -15,7 +16,8 @@ export default function UserForm(props) {
     { user } = useContext(UserContext),
     [userName, setUserName] = useState(""),
     [userFullName, setUserFullName] = useState(""),
-    [userEmail, setUserEmail] = useState("");
+    [userEmail, setUserEmail] = useState(""),
+    [error, setError] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -28,7 +30,22 @@ export default function UserForm(props) {
   useEffect(() => {
     setPassword("");
     setPassword2("");
-  }, [props.changedUser]);
+    setError(props.errorMessage || "");
+  }, [props.changedUser, props.errorMessage]);
+
+  const handleChangeEmail = (e) => {
+    setUserEmail(e.target.value);
+    if (props.errorMessage && props.errorMessage.includes("Emailen")) {
+      setError("");
+    }
+  };
+
+  const handleChangeUsername = (e) => {
+    setUserName(e.target.value);
+    if (props.errorMessage && props.errorMessage.includes("Användarnamn")) {
+      setError("");
+    }
+  };
 
   return (
     <>
@@ -51,8 +68,12 @@ export default function UserForm(props) {
           name="email"
           placeholder="E-postadress"
           value={userEmail}
-          onChange={(e) => setUserEmail(e.target.value)}
+          onChange={handleChangeEmail}
+          isInvalid={error && error.includes("Emailen")}
         />
+        {error && error.includes("Emailen") && (
+          <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
+        )}
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -62,8 +83,12 @@ export default function UserForm(props) {
           name="username"
           placeholder="Användarnamn"
           value={userName}
-          onChange={(e) => setUserName(e.target.value)}
+          onChange={handleChangeUsername}
+          isInvalid={error && error.includes("Användarnamn")}
         />
+        {error && error.includes("Användarnamn") && (
+          <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
+        )}
       </Form.Group>
 
       <Form.Group className="mb-3">
