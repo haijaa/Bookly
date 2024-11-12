@@ -1,70 +1,74 @@
-import { useContext, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import UserForm from "./UserForm";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import UserContext from "../context/UserContext";
+import { useContext, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import UserForm from './UserForm'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import UserContext from '../context/UserContext'
+import { useNavigate } from 'react-router-dom'
 
 export default function LoginForm() {
-  const [activeTab, setActiveTab] = useState("login"),
+  const [activeTab, setActiveTab] = useState('login'),
     [validateRegister, setValidateRegister] = useState(false),
     [validateLogin, setValidateLogin] = useState(false),
     [conditions, setConditions] = useState(false),
-    { setUser } = useContext(UserContext);
+    { setUser } = useContext(UserContext),
+    navigate = useNavigate()
 
   const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
+    setActiveTab(tab)
+  }
 
   const handleSubmitRegister = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const form = event.currentTarget,
       formData = new FormData(event.target),
-      formValues = Object.fromEntries(formData.entries());
+      formValues = Object.fromEntries(formData.entries())
 
-    console.log(formValues);
+    console.log(formValues)
 
     if (form.checkValidity() === false) {
-      setValidateRegister(true);
+      setValidateRegister(true)
     } else {
-      createUser(formValues);
-      setValidateRegister(false);
+      createUser(formValues)
+      setValidateRegister(false)
     }
-  };
+    navigate('/')
+  }
 
   const handleSubmitLogin = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const form = event.currentTarget,
       formData = new FormData(event.target),
-      formValues = Object.fromEntries(formData.entries());
+      formValues = Object.fromEntries(formData.entries())
 
-    fetchUser(formValues);
+    fetchUser(formValues)
 
     if (form.checkValidity() === false) {
-      setValidateLogin(true);
+      setValidateLogin(true)
     } else {
-      setValidateLogin(false);
+      setValidateLogin(false)
     }
-  };
+    navigate('/')
+  }
 
   const fetchUser = async (input) => {
-    await fetch("http://localhost:3000/api/users")
+    await fetch('http://localhost:3000/api/users')
       .then((response) => response.json())
       .then((result) => {
         const foundUser = result.find(
           (user) =>
             user.userusername === input.username &&
             user.userpassword === input.password
-        );
+        )
 
         if (foundUser) {
-          setUser(foundUser);
+          setUser(foundUser)
         }
-      });
-  };
+      })
+  }
 
   const createUser = async (input) => {
-    await fetch("http://localhost:3000/api/users", {
+    await fetch('http://localhost:3000/api/users', {
       body: JSON.stringify({
         userFullName: input.name,
         userUserName: input.username,
@@ -72,15 +76,15 @@ export default function LoginForm() {
         userEmail: input.email,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      method: "POST",
+      method: 'POST',
     })
       .then((response) => response.json())
       .then((result) => {
-        setUser(result.user);
-      });
-  };
+        setUser(result.user)
+      })
+  }
 
   return (
     <div className="container p-3 d-flex flex-column w-25">
@@ -89,9 +93,9 @@ export default function LoginForm() {
         <li className="nav-item">
           <button
             className={`nav-link ${
-              activeTab === "login" ? "active" : ""
+              activeTab === 'login' ? 'active' : ''
             } link-start`}
-            onClick={() => handleTabClick("login")}
+            onClick={() => handleTabClick('login')}
           >
             Logga in
           </button>
@@ -99,16 +103,16 @@ export default function LoginForm() {
         <li className="nav-item ">
           <button
             className={`nav-link ${
-              activeTab === "register" ? "active" : ""
+              activeTab === 'register' ? 'active' : ''
             } link-start`}
-            onClick={() => handleTabClick("register")}
+            onClick={() => handleTabClick('register')}
           >
             Registrera ny användare
           </button>
         </li>
       </ul>
 
-      {activeTab === "login" && (
+      {activeTab === 'login' && (
         <>
           <Form
             className="d-flex flex-column mt-4"
@@ -150,7 +154,7 @@ export default function LoginForm() {
             Har du inget konto?
             <a
               className="text-primary hover ps-3"
-              onClick={() => handleTabClick("register")}
+              onClick={() => handleTabClick('register')}
             >
               Registrera dig
             </a>
@@ -158,7 +162,7 @@ export default function LoginForm() {
         </>
       )}
 
-      {activeTab === "register" && (
+      {activeTab === 'register' && (
         <Form
           className="d-flex flex-column mt-4"
           noValidate
@@ -191,5 +195,5 @@ export default function LoginForm() {
         </Form>
       )}
     </div>
-  );
+  )
 }
