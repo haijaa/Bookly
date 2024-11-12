@@ -1,39 +1,52 @@
-import Footer from "./components/Footer";
-import NavBar from "./components/NavBar";
-import Home from "./pages/Home";
-import Bookshelf from "./pages/Bookshelf";
-import Settings from "./pages/Settings";
-import Login from "./pages/Login";
-import { createHashRouter, Outlet, RouterProvider } from "react-router-dom";
-import SingleBook from "./components/SingleBooks";
-import { useContext } from "react";
-import { UserContext } from "./context/UserContext";
+import Footer from './components/Footer'
+import NavBar from './components/NavBar'
+import { createHashRouter, Outlet, RouterProvider } from 'react-router-dom'
+import { useContext, lazy, Suspense } from 'react'
+import { UserContext } from './context/UserContext'
+
+const Home = lazy(() => import('./pages/Home.jsx'))
+const SingleBook = lazy(() => import('./pages/SingleBooks.jsx'))
+const Login = lazy(() => import('./pages/Login.jsx'))
+const Settings = lazy(() => import('./pages/Settings.jsx'))
 
 function MyComponent() {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext)
 
   const router = createHashRouter([
     {
       children: [
         {
-          element: <Home />,
-          path: "/",
+          element: (
+            <Suspense fallback={<p>Laddar...</p>}>
+              <Home />
+            </Suspense>
+          ),
+          path: '/',
         },
         {
-          element: <SingleBook />,
-          path: "/books/:paramId",
+          element: (
+            <Suspense fallback={<p>Laddar...</p>}>
+              <SingleBook />
+            </Suspense>
+          ),
+          path: '/books/:paramId',
         },
         {
-          element: <Login />,
-          path: "/login",
+          element: (
+            <Suspense fallback={<p>Laddar...</p>}>
+              <Login />
+            </Suspense>
+          ),
+          path: '/login',
         },
+
         {
-          element: <Bookshelf />,
-          path: "/my-bookshelf",
-        },
-        {
-          element: <Settings />,
-          path: "/settings",
+          element: (
+            <Suspense fallback={<p>Laddar...</p>}>
+              <Settings />
+            </Suspense>
+          ),
+          path: '/settings',
         },
       ],
 
@@ -49,9 +62,9 @@ function MyComponent() {
         <Login />
       ),
     },
-  ]);
+  ])
 
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />
 }
 
-export default MyComponent;
+export default MyComponent
