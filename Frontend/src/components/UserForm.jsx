@@ -35,7 +35,7 @@ export default function UserForm(props) {
 
   const handleChangeEmail = (e) => {
     setUserEmail(e.target.value);
-    if (props.errorMessage && props.errorMessage.includes("Emailen")) {
+    if (props.errorMessage && props.errorMessage.includes("Email")) {
       setError("");
     }
   };
@@ -69,9 +69,9 @@ export default function UserForm(props) {
           placeholder="E-postadress"
           value={userEmail}
           onChange={handleChangeEmail}
-          isInvalid={error && error.includes("Emailen")}
+          isInvalid={error && error.includes("Email")}
         />
-        {error && error.includes("Emailen") && (
+        {error && error.includes("Email") && (
           <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
         )}
       </Form.Group>

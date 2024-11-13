@@ -123,7 +123,7 @@ app.post("/api/users", async (request, response) => {
       } else if (error.detail.includes("useremail")) {
         return response.status(400).send({
           message: "email",
-          error: "Emailen finns redan, vänligen välj ett annat",
+          error: "Email finns redan, vänligen välj en annan",
         });
       }
     }

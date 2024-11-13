@@ -17,6 +17,8 @@ export default function LoginForm() {
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+    setErrorMessage("");
+    setConditions(false);
   };
 
   const handleSubmitRegister = (event) => {
@@ -202,7 +204,7 @@ export default function LoginForm() {
             className="mt-4"
             variant="primary"
             type="submit"
-            disabled={!conditions}
+            disabled={conditions === false}
           >
             Skapa användare
           </Button>
