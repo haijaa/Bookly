@@ -10,11 +10,11 @@ services:
       - POSTGRES_USER=${PGUSER}
       - POSTGRES_DB=${PGDATABASE}
     healthcheck:
-      test: "pg_isready --username=postgres"
+      test: 'pg_isready --username=postgres'
       interval: 10s
       retries: 5
     ports:
-      - "5432:5432"
+      - '5432:5432'
   backend:
     build:
       context: Backend
@@ -25,8 +25,8 @@ services:
         condition: service_healthy
     environment:
       - PGURI=${PGURI}
-    ports:
-      - "3000:3000"
+    expose:
+      - '3000'
   frontend:
     build:
       context: Frontend
@@ -35,4 +35,4 @@ services:
     depends_on:
       - backend
     ports:
-      - "80:80"
+      - '80:80'

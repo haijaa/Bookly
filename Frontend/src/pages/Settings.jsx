@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Image from "react-bootstrap/Image";
-import profileImage from "../assets/booklyOwl.webp";
-import UserForm from "../components/UserForm";
-import UserContext from "../context/UserContext";
-import Modal from "react-bootstrap/Modal";
-import ToastNotification from "../components/ToastNotification";
+import { useContext, useState } from 'react'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Image from 'react-bootstrap/Image'
+import profileImage from '../assets/booklyOwl.webp'
+import UserForm from '../components/UserForm'
+import UserContext from '../context/UserContext'
+import Modal from 'react-bootstrap/Modal'
+import ToastNotification from '../components/ToastNotification'
 
 export default function Settings() {
   const [validated, setValidated] = useState(false),
@@ -14,26 +14,26 @@ export default function Settings() {
     [userChanged, setUserChanged] = useState(false),
     [showDeleteModal, setShowDeleteModal] = useState(false),
     [showDeletedUser, setShowDeletedUser] = useState(false),
-    [toastState, setToastState] = useState({ show: false });
+    [toastState, setToastState] = useState({ show: false })
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const form = event.currentTarget,
       formData = new FormData(event.target),
-      formValues = Object.fromEntries(formData.entries());
-    console.log("formvalues: ", formValues);
+      formValues = Object.fromEntries(formData.entries())
+    console.log('formvalues: ', formValues)
 
     if (form.checkValidity() === false) {
-      setValidated(true);
+      setValidated(true)
     } else {
-      changeUser(formValues);
-      setUserChanged(!userChanged);
-      setValidated(false);
+      changeUser(formValues)
+      setUserChanged(!userChanged)
+      setValidated(false)
     }
-  };
+  }
 
   const changeUser = async (input) => {
-    await fetch("http://localhost:3000/api/users", {
+    await fetch('/api/users', {
       body: JSON.stringify({
         userFullName: input.name,
         userUserName: input.username,
@@ -43,43 +43,43 @@ export default function Settings() {
         userId: user.userid,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      method: "PUT",
+      method: 'PUT',
     })
       .then((response) => response.json())
       .then((result) => {
-        setUser(result.user);
+        setUser(result.user)
         setToastState({
           show: true,
-          title: "Uppdatera användare",
+          title: 'Uppdatera användare',
           message: `${input.name} har uppdaterats`,
-        });
+        })
         setTimeout(() => {
-          setToastState({ ...toastState, show: false });
-        }, 3000);
-      });
-  };
+          setToastState({ ...toastState, show: false })
+        }, 3000)
+      })
+  }
 
   const deleteUser = async () => {
-    await fetch("http://localhost:3000/api/users", {
+    await fetch('/api/users', {
       body: JSON.stringify({
         userId: user.userid,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      method: "DELETE",
+      method: 'DELETE',
     })
       .then((response) => response.json())
       .then(() => {
-        setShowDeleteModal(false);
-        setShowDeletedUser(true);
+        setShowDeleteModal(false)
+        setShowDeletedUser(true)
         setTimeout(() => {
-          setUser(null);
-        }, 3000);
-      });
-  };
+          setUser(null)
+        }, 3000)
+      })
+  }
 
   return (
     <>
@@ -101,7 +101,7 @@ export default function Settings() {
             id="basic-nav-dropdown"
             src={profileImage}
             roundedCircle
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
           />
           <Button variant="light">Ändra profilbild</Button>
         </Form.Group>
@@ -157,5 +157,5 @@ export default function Settings() {
         </Modal>
       </Form>
     </>
-  );
+  )
 }
