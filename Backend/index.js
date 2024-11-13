@@ -112,9 +112,23 @@ app.post("/api/users", async (request, response) => {
       .status(201)
       .json({ message: "User created successfully", user: rows[0] });
   } catch (error) {
-    console.error("Error create user", error);
+    console.error("Error create user", error.detail);
+
+    if (error.code === "23505") {
+      if (error.detail.includes("userusername")) {
+        return response.status(400).send({
+          message: "användarnamn",
+          error: "Användarnamnet finns redan, vänligen välj ett annat.",
+        });
+      } else if (error.detail.includes("useremail")) {
+        return response.status(400).send({
+          message: "email",
+          error: "Email finns redan, vänligen välj en annan",
+        });
+      }
+    }
     response.status(500).send({
-      message: "Error create user",
+      message: "Error creating user",
       error: error.message,
     });
   }
