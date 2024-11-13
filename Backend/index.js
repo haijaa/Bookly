@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const { Client } = require("pg");
+const NodeCache = require("node-cache");
 
 dotenv.config();
 
@@ -13,13 +14,25 @@ client.connect();
 
 const app = express();
 const port = process.env.PORT || 3000;
+const cache = new NodeCache({ stdTTL: 600 });
 
 app.use(cors());
 app.use(express.json());
 
 app.get("/api/books", async (_request, response) => {
-  const { rows } = await client.query("SELECT * from books;");
-  response.send(rows);
+  const cacheKey = "books-list";
+  const cachedData = cache.get(cacheKey);
+  if (cachedData) {
+    return response.send(cachedData);
+  }
+
+  try {
+    const { rows } = await client.query("SELECT * from books;");
+    cache.set(cacheKey, rows);
+    response.send(rows);
+  } catch (error) {
+    response.status(500).send("Error on serverside");
+  }
 });
 
 app.get("/api/books/:id", async (request, response) => {
@@ -64,7 +77,7 @@ app.get("/api/books/:id", async (request, response) => {
     GROUP BY
         books.bookId;
     `,
-    [id]
+    [id],
   );
   response.send(rows);
 });
@@ -74,7 +87,7 @@ app.post("/api/reviews", async (request, response) => {
   try {
     const { rows } = await client.query(
       "INSERT INTO reviews (reviewContent, reviewUserId , reviewBookId) VALUES ($1, $2, $3) RETURNING *",
-      [reviewContent, reviewUserId, reviewBookId]
+      [reviewContent, reviewUserId, reviewBookId],
     );
     response.status(200).json({ message: "Added:", data: rows[0] });
   } catch (error) {
@@ -88,7 +101,7 @@ app.delete("/api/reviews", async (request, response) => {
   try {
     const { rows } = await client.query(
       "DELETE FROM reviews WHERE reviewId = $1",
-      [reviewId]
+      [reviewId],
     );
     response.status(200).json("Review deleted");
   } catch (error) {
@@ -106,15 +119,29 @@ app.post("/api/users", async (request, response) => {
   try {
     const { rows } = await client.query(
       "INSERT INTO users (userFullname, userEmail, userUserName, userPassword) VALUES ($1, $2, $3, $4) RETURNING *;",
-      [userFullName, userEmail, userUserName, userPassword]
+      [userFullName, userEmail, userUserName, userPassword],
     );
     response
       .status(201)
       .json({ message: "User created successfully", user: rows[0] });
   } catch (error) {
-    console.error("Error create user", error);
+    console.error("Error create user", error.detail);
+
+    if (error.code === "23505") {
+      if (error.detail.includes("userusername")) {
+        return response.status(400).send({
+          message: "användarnamn",
+          error: "Användarnamnet finns redan, vänligen välj ett annat.",
+        });
+      } else if (error.detail.includes("useremail")) {
+        return response.status(400).send({
+          message: "email",
+          error: "Email finns redan, vänligen välj en annan",
+        });
+      }
+    }
     response.status(500).send({
-      message: "Error create user",
+      message: "Error creating user",
       error: error.message,
     });
   }
@@ -143,7 +170,7 @@ app.put("/api/users", async (request, response) => {
         userPassword,
         userProfilePicture,
         userId,
-      ]
+      ],
     );
     response
       .status(201)
@@ -162,7 +189,7 @@ app.delete("/api/users", async (request, response) => {
   try {
     const { rows } = await client.query(
       "DELETE FROM users WHERE userId = $1 RETURNING *;",
-      [userId]
+      [userId],
     );
     response
       .status(201)

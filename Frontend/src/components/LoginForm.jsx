@@ -1,93 +1,106 @@
-import { useContext, useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import UserForm from './UserForm'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import UserContext from '../context/UserContext'
-import { useNavigate } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import DataProtectionPolicy from './DataProtectionPolicy'
+import { useContext, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import UserForm from "./UserForm";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import UserContext from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import DataProtectionPolicy from "./DataProtectionPolicy";
 
 export default function LoginForm() {
-  const [activeTab, setActiveTab] = useState('login'),
+  const [activeTab, setActiveTab] = useState("login"),
     [validateRegister, setValidateRegister] = useState(false),
     [validateLogin, setValidateLogin] = useState(false),
     [conditions, setConditions] = useState(false),
+    [showGDPRModal, setShowGDPRModal] = useState(false),
     { setUser } = useContext(UserContext),
-    navigate = useNavigate(),
-    [showGDPRModal, setShowGDPRModal] = useState(false)
+    [errorMessage, setErrorMessage] = useState(""),
+    navigate = useNavigate();
 
   const handleTabClick = (tab) => {
-    setActiveTab(tab)
-  }
+    setActiveTab(tab);
+    setErrorMessage("");
+    setConditions(false);
+  };
 
   const handleSubmitRegister = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const form = event.currentTarget,
       formData = new FormData(event.target),
-      formValues = Object.fromEntries(formData.entries())
-
-    console.log(formValues)
+      formValues = Object.fromEntries(formData.entries());
 
     if (form.checkValidity() === false) {
-      setValidateRegister(true)
+      setValidateRegister(true);
     } else {
-      createUser(formValues)
-      setValidateRegister(false)
+      createUser(formValues);
+      setValidateRegister(false);
     }
-    navigate('/')
-  }
+    navigate("/");
+  };
 
   const handleSubmitLogin = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const form = event.currentTarget,
       formData = new FormData(event.target),
-      formValues = Object.fromEntries(formData.entries())
+      formValues = Object.fromEntries(formData.entries());
 
-    fetchUser(formValues)
+    fetchUser(formValues);
 
     if (form.checkValidity() === false) {
-      setValidateLogin(true)
+      setValidateLogin(true);
     } else {
-      setValidateLogin(false)
+      setValidateLogin(false);
     }
-    navigate('/')
-  }
+    navigate("/");
+  };
 
   const fetchUser = async (input) => {
-    await fetch('http://localhost:3000/api/users')
+    await fetch("http://localhost:3000/api/users")
       .then((response) => response.json())
       .then((result) => {
         const foundUser = result.find(
           (user) =>
             user.userusername === input.username &&
             user.userpassword === input.password
-        )
+        );
 
         if (foundUser) {
-          setUser(foundUser)
+          setUser(foundUser);
         }
-      })
-  }
+      });
+  };
 
   const createUser = async (input) => {
-    await fetch('http://localhost:3000/api/users', {
-      body: JSON.stringify({
-        userFullName: input.name,
-        userUserName: input.username,
-        userPassword: input.password,
-        userEmail: input.email,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setUser(result.user)
-      })
-  }
+    try {
+      const response = await fetch("http://localhost:3000/api/users", {
+        body: JSON.stringify({
+          userFullName: input.name,
+          userUserName: input.username,
+          userPassword: input.password,
+          userEmail: input.email,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+      const result = await response.json();
+      if (response.ok) {
+        setUser(result.user);
+      } else {
+        if (result.message === "användarnamn") {
+          setErrorMessage(result.error);
+        } else if (result.message === "email") {
+          setErrorMessage(result.error);
+        } else {
+          console.log(result.error);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="container p-3 d-flex flex-column w-25">
@@ -96,9 +109,9 @@ export default function LoginForm() {
         <li className="nav-item">
           <button
             className={`nav-link ${
-              activeTab === 'login' ? 'active' : ''
+              activeTab === "login" ? "active" : ""
             } link-start`}
-            onClick={() => handleTabClick('login')}
+            onClick={() => handleTabClick("login")}
           >
             Logga in
           </button>
@@ -106,16 +119,16 @@ export default function LoginForm() {
         <li className="nav-item ">
           <button
             className={`nav-link ${
-              activeTab === 'register' ? 'active' : ''
+              activeTab === "register" ? "active" : ""
             } link-start`}
-            onClick={() => handleTabClick('register')}
+            onClick={() => handleTabClick("register")}
           >
             Registrera ny användare
           </button>
         </li>
       </ul>
 
-      {activeTab === 'login' && (
+      {activeTab === "login" && (
         <>
           <Form
             className="d-flex flex-column mt-4"
@@ -157,7 +170,7 @@ export default function LoginForm() {
             Har du inget konto?
             <a
               className="text-primary hover ps-3"
-              onClick={() => handleTabClick('register')}
+              onClick={() => handleTabClick("register")}
             >
               Registrera dig
             </a>
@@ -165,14 +178,14 @@ export default function LoginForm() {
         </>
       )}
 
-      {activeTab === 'register' && (
+      {activeTab === "register" && (
         <Form
           className="d-flex flex-column mt-4"
           noValidate
           validated={validateRegister}
           onSubmit={handleSubmitRegister}
         >
-          <UserForm validated={validateRegister} />
+          <UserForm validated={validateRegister} errorMessage={errorMessage} />
 
           <div className="d-flex justify-content-center mb-4">
             <input
@@ -182,7 +195,7 @@ export default function LoginForm() {
               onChange={() => setConditions(!conditions)}
             />
             <label>
-              Jag har läst och accepterat{' '}
+              Jag har läst och accepterat{" "}
               <a
                 className="text-primary hover ps-3"
                 onClick={() => setShowGDPRModal(true)}
@@ -196,7 +209,7 @@ export default function LoginForm() {
             className="mt-4"
             variant="primary"
             type="submit"
-            disabled={!conditions}
+            disabled={conditions === false}
           >
             Skapa användare
           </Button>
@@ -208,5 +221,5 @@ export default function LoginForm() {
         </Form>
       )}
     </div>
-  )
+  );
 }
