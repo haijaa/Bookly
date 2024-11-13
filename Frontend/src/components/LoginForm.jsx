@@ -98,7 +98,7 @@ export default function LoginForm() {
         }
       }
     } catch (error) {
-      console.log("Error during user creation:", error);
+      console.log(error);
     }
   };
 
