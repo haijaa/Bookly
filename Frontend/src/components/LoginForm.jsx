@@ -15,9 +15,8 @@ export default function LoginForm() {
     [conditions, setConditions] = useState(false),
     [showGDPRModal, setShowGDPRModal] = useState(false),
     { setUser } = useContext(UserContext),
-    [errorMessage, setErrorMessage] = useState("");
-
-  navigate = useNavigate();
+    [errorMessage, setErrorMessage] = useState(""),
+    navigate = useNavigate();
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
