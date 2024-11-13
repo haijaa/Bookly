@@ -1,10 +1,12 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useContext, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import UserContext from "../context/UserContext";
-import DataProtectionPolicy from "./DataProtectionPolicy";
+import "bootstrap/dist/css/bootstrap.min.css";
 import UserForm from "./UserForm";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import UserContext from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import DataProtectionPolicy from "./DataProtectionPolicy";
 
 export default function LoginForm() {
   const [activeTab, setActiveTab] = useState("login"),
@@ -14,6 +16,8 @@ export default function LoginForm() {
     [showGDPRModal, setShowGDPRModal] = useState(false),
     { setUser } = useContext(UserContext),
     [errorMessage, setErrorMessage] = useState("");
+
+  navigate = useNavigate();
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -33,6 +37,7 @@ export default function LoginForm() {
       createUser(formValues);
       setValidateRegister(false);
     }
+    navigate("/");
   };
 
   const handleSubmitLogin = (event) => {
@@ -48,6 +53,7 @@ export default function LoginForm() {
     } else {
       setValidateLogin(false);
     }
+    navigate("/");
   };
 
   const fetchUser = async (input) => {
