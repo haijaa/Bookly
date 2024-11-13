@@ -21,7 +21,7 @@ export default function NavBar() {
         >
           Bookly
         </Navbar.Brand>
-        <Nav className="d-flex justify-content-between">
+        <Nav className="d-flex justify-content-between ">
           <Nav.Link as={NavLink} to="/" className="white-text">
             Alla böcker
           </Nav.Link>
@@ -36,7 +36,7 @@ export default function NavBar() {
                     id="basic-nav-dropdown"
                     src={user.userprofilepicture ?? profileImage}
                     roundedCircle
-                    style={{ width: '30px', margin: '0 10px' }}
+                    style={{ width: '30px', height: '30px', margin: '0 10px' }}
                   />
                 </span>
               }
