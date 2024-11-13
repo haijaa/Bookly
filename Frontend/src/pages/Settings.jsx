@@ -6,8 +6,6 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import profileImage from '../assets/booklyOwl.webp'
-// import CatImage from '../assets/booklyCat.webp'
-// import CowImage from '../assets/booklyCow.webp'
 import UserForm from '../components/UserForm'
 import UserContext from '../context/UserContext'
 import Modal from 'react-bootstrap/Modal'
@@ -54,7 +52,7 @@ export default function Settings() {
   }
 
   const changeUser = async (input) => {
-    await fetch('http://localhost:3000/api/users', {
+    await fetch('/api/users', {
       body: JSON.stringify({
         userFullName: input.name,
         userUserName: input.username,
@@ -83,7 +81,7 @@ export default function Settings() {
   }
 
   const changeProfilePicture = async () => {
-    await fetch('http://localhost:3000/api/users', {
+    await fetch('/api/users', {
       body: JSON.stringify({
         userFullName: user.userfullname,
         userUserName: user.userusername,
@@ -114,7 +112,7 @@ export default function Settings() {
   }
 
   const deleteUser = async () => {
-    await fetch('http://localhost:3000/api/users', {
+    await fetch('/api/users', {
       body: JSON.stringify({
         userId: user.userid,
       }),

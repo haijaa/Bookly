@@ -7,7 +7,7 @@ export default function AllBooks() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/books')
+    fetch('/api/books')
       .then((response) => response.json())
       .then((result) => setBooks(result))
   }, [])

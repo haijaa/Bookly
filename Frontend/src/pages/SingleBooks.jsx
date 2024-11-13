@@ -1,80 +1,80 @@
-import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import "../index.css";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import UserContext from "../context/UserContext";
-import { Icon } from "@mdi/react";
-import { mdiTrashCanOutline } from "@mdi/js";
+import { useEffect, useState, useContext } from 'react'
+import { useParams } from 'react-router-dom'
+import '../index.css'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import UserContext from '../context/UserContext'
+import { Icon } from '@mdi/react'
+import { mdiTrashCanOutline } from '@mdi/js'
 
 export default function SingleBook() {
-  let { paramId } = useParams();
+  let { paramId } = useParams()
   const [specificBook, setSpecificBook] = useState([]),
-    [userReview, setUserReview] = useState(""),
-    { user } = useContext(UserContext);
+    [userReview, setUserReview] = useState(''),
+    { user } = useContext(UserContext)
 
   const getSpecificBook = async (id) => {
-    await fetch(`http://localhost:3000/api/books/${id}`)
+    await fetch(`/api/books/${id}`)
       .then((response) => response.json())
-      .then((result) => setSpecificBook(result));
-  };
+      .then((result) => setSpecificBook(result))
+  }
 
   const convertDate = (dateToConvert) => {
-    let date = new Date(dateToConvert);
+    let date = new Date(dateToConvert)
     const options = {
-      weekday: "long",
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    };
-    return date.toLocaleDateString("sv-SE", options);
-  };
+      weekday: 'long',
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    }
+    return date.toLocaleDateString('sv-SE', options)
+  }
 
   useEffect(() => {
     if (paramId) {
-      getSpecificBook(paramId);
+      getSpecificBook(paramId)
     }
-  }, [paramId]);
+  }, [paramId])
 
   const postReview = async () => {
-    console.log(userReview);
-    await fetch("http://localhost:3000/api/reviews", {
+    console.log(userReview)
+    await fetch('/api/reviews', {
       body: JSON.stringify({
         reviewContent: userReview,
         reviewUserId: user.userid,
         reviewBookId: paramId,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      method: "POST",
+      method: 'POST',
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
-        setUserReview("");
-        getSpecificBook(paramId);
-      });
-  };
+        console.log(result)
+        setUserReview('')
+        getSpecificBook(paramId)
+      })
+  }
 
   const deleteReview = async (x) => {
-    await fetch(`http://localhost:3000/api/reviews`, {
+    await fetch(`/api/reviews`, {
       body: JSON.stringify({
         reviewId: x,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      method: "DELETE",
-    });
-    getSpecificBook(paramId);
-  };
+      method: 'DELETE',
+    })
+    getSpecificBook(paramId)
+  }
 
   return (
     <>
       <div
         className="d-flex flex-column justify-content-between align-items-center pt-5 "
-        style={{ minHeight: "100vh" }}
+        style={{ minHeight: '100vh' }}
       >
         {specificBook.map((book) => (
           <>
@@ -82,7 +82,7 @@ export default function SingleBook() {
               <img
                 src={book.bookimage}
                 alt={book.booktitle}
-                style={{ height: "500px", width: "350px" }}
+                style={{ height: '500px', width: '350px' }}
                 className="img-fluid"
               />
 
@@ -91,9 +91,9 @@ export default function SingleBook() {
                 <h2 className="fs-4 pb-3">{book.bookauthor}</h2>
                 <p
                   style={{
-                    maxHeight: "65%",
-                    overflowY: "auto",
-                    overflowX: "hidden",
+                    maxHeight: '65%',
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
                   }}
                 >
                   {book.bookdescription}
@@ -101,7 +101,7 @@ export default function SingleBook() {
                 <div className="mt-auto">
                   <p className="m-0">
                     <span className="fw-semibold ">Kategorier: </span>
-                    {book.genres.map((genre) => genre.genreName).join(", ")}
+                    {book.genres.map((genre) => genre.genreName).join(', ')}
                   </p>
                   <p className="m-0">
                     <span className="fw-semibold">Språk: </span>
@@ -112,7 +112,7 @@ export default function SingleBook() {
             </div>
             <div
               className="w-100 d-flex justify-content-center pb-5 flex-grow-1"
-              style={{ backgroundColor: "#606D5D" }}
+              style={{ backgroundColor: '#606D5D' }}
             >
               <div className="d-flex flex-column pt-5 w-50 align-items-center">
                 <h3 className="fs-1 pb-5 white-text ">Recensioner</h3>
@@ -121,7 +121,7 @@ export default function SingleBook() {
                     <div
                       key={review.reviewId}
                       className="rounded mb-3 w-75 py-2 px-4"
-                      style={{ backgroundColor: "#F2E9DC" }}
+                      style={{ backgroundColor: '#F2E9DC' }}
                     >
                       <div className="d-flex justify-content-between">
                         <p className="fw-semibold">
@@ -156,11 +156,11 @@ export default function SingleBook() {
                 <div
                   className="rounded py-4 px-4 w-75"
                   style={{
-                    backgroundColor: "#F2E9DC",
+                    backgroundColor: '#F2E9DC',
                   }}
                 >
                   <h4 className="fs-5 mb-4">
-                    Skriv en recension om{" "}
+                    Skriv en recension om{' '}
                     <span className="fst-italic"> {book.booktitle}</span>
                   </h4>
                   <Form.Label>Recension:</Form.Label>
@@ -183,5 +183,5 @@ export default function SingleBook() {
         ))}
       </div>
     </>
-  );
+  )
 }

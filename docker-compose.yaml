@@ -17,7 +17,7 @@ services:
       - '5432:5432'
   backend:
     build:
-      context: backend
+      context: Backend
       dockerfile: Dockerfile
     container_name: backend_service
     depends_on:
@@ -25,11 +25,11 @@ services:
         condition: service_healthy
     environment:
       - PGURI=${PGURI}
-    ports:
-      - '3000:3000'
+    expose:
+      - '3000'
   frontend:
     build:
-      context: frontend
+      context: Frontend
       dockerfile: Dockerfile
     container_name: frontend_service
     depends_on:

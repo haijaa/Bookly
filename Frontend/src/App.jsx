@@ -1,16 +1,16 @@
-import Footer from "./components/Footer";
-import NavBar from "./components/NavBar";
-import { createHashRouter, Outlet, RouterProvider } from "react-router-dom";
-import { useContext, lazy, Suspense } from "react";
-import { UserContext } from "./context/UserContext";
+import Footer from './components/Footer'
+import NavBar from './components/NavBar'
+import { createHashRouter, Outlet, RouterProvider } from 'react-router-dom'
+import { useContext, lazy, Suspense } from 'react'
+import { UserContext } from './context/UserContext'
 
-const Home = lazy(() => import("./pages/Home.jsx"));
-const SingleBook = lazy(() => import("./pages/SingleBooks.jsx"));
-const Login = lazy(() => import("./pages/Login.jsx"));
-const Settings = lazy(() => import("./pages/Settings.jsx"));
+const Home = lazy(() => import('./pages/Home.jsx'))
+const SingleBook = lazy(() => import('./pages/SingleBooks.jsx'))
+const Login = lazy(() => import('./pages/Login.jsx'))
+const Settings = lazy(() => import('./pages/Settings.jsx'))
 
 function MyComponent() {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext)
 
   const router = createHashRouter([
     {
@@ -21,7 +21,7 @@ function MyComponent() {
               <Home />
             </Suspense>
           ),
-          path: "/",
+          path: '/',
         },
         {
           element: (
@@ -29,7 +29,7 @@ function MyComponent() {
               <SingleBook />
             </Suspense>
           ),
-          path: "/books/:paramId",
+          path: '/books/:paramId',
         },
         {
           element: (
@@ -37,7 +37,7 @@ function MyComponent() {
               <Login />
             </Suspense>
           ),
-          path: "/login",
+          path: '/login',
         },
 
         {
@@ -46,7 +46,7 @@ function MyComponent() {
               <Settings />
             </Suspense>
           ),
-          path: "/settings",
+          path: '/settings',
         },
       ],
 
@@ -62,9 +62,9 @@ function MyComponent() {
         <Login />
       ),
     },
-  ]);
+  ])
 
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />
 }
 
-export default MyComponent;
+export default MyComponent
