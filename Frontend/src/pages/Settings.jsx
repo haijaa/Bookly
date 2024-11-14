@@ -23,11 +23,11 @@ export default function Settings() {
     images = [
       {
         profileImage:
-          "https://images.unsplash.com/photo-1556566382-339e7b3e26a0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJvb2tzJTIwYW5pbWFsc3xlbnwwfHwwfHx8MA%3D%3D",
+          "https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWFsJTIwZ2xhc3Nlc3xlbnwwfHwwfHx8MA%3D%3D",
       },
       {
         profileImage:
-          "https://images.unsplash.com/photo-1516374348294-ce51573b0fb5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9va3MlMjBhbmltYWxzfGVufDB8fDB8fHww",
+          "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGFuaW1hbCUyMGdsYXNzZXN8ZW58MHx8MHx8fDA%3D",
       },
       {
         profileImage:
@@ -136,13 +136,13 @@ export default function Settings() {
         validated={validated}
         onSubmit={handleSubmit}
       >
-        <Form.Group className="mb-3 text-center">
+        <Form.Group className="d-flex flex-column align-items-center mb-3 text-center">
           <Image
             className="mb-3"
             id="basic-nav-dropdown"
             src={user.userprofilepicture ?? profileImage}
             roundedCircle
-            style={{ width: "200px", height: "200px" }}
+            style={{ width: "350px", height: "350px" }}
           />
           <Button variant="light" onClick={() => setShowPicturesModal(true)}>
             Ändra profilbild
@@ -220,8 +220,8 @@ export default function Settings() {
                   }`}
                   cover
                   style={{
-                    width: "140px",
-                    height: "140px",
+                    width: "145px",
+                    height: "145px",
                     border:
                       selectedImage === img.profileImage
                         ? "3px solid var(--primary-color)"

@@ -55,7 +55,7 @@ app.get("/api/books/:id", async (request, response) => {
             'reviewUser', jsonb_build_object(
                 'userId', users.userId,
                 'userFullName', users.userFullName,
-                'userUserName', users.userUserName
+                'userProfilePicture', users.userProfilePicture
             )
         )) AS reviews,
         array_agg(DISTINCT jsonb_build_object(
