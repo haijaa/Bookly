@@ -147,30 +147,17 @@ app.post("/api/users", async (request, response) => {
   }
 });
 
-app.put("/api/users", async (request, response) => {
-  const {
-    userId,
-    userFullName,
-    userEmail,
-    userUserName,
-    userPassword,
-    userProfilePicture,
-  } = request.body;
+app.put("/api/users/:id", async (request, response) => {
+  const { id } = request.params;
+  const { userFullName, userEmail, userUserName, userPassword } = request.body;
   try {
     const { rows } = await client.query(
       `UPDATE users SET userFullName = $1,
           userEmail = $2,
           userUserName = $3,
-          userPassword = $4,
-          userProfilePicture = $5 WHERE userId = $6 RETURNING *;`,
-      [
-        userFullName,
-        userEmail,
-        userUserName,
-        userPassword,
-        userProfilePicture,
-        userId,
-      ],
+          userPassword = $4
+          WHERE userId = $5 RETURNING *;`,
+      [userFullName, userEmail, userUserName, userPassword, id],
     );
     response
       .status(201)
@@ -179,6 +166,27 @@ app.put("/api/users", async (request, response) => {
     console.error("Error update user", error);
     response.status(500).send({
       message: "Error update user",
+      error: error.message,
+    });
+  }
+});
+
+app.put("/api/users/profile-picture/:id", async (request, response) => {
+  const { id } = request.params;
+  const { userProfilePicture } = request.body;
+  try {
+    const { rows } = await client.query(
+      `UPDATE users SET userProfilePicture = $1 WHERE userId = $2 RETURNING *;`,
+      [userProfilePicture, id],
+    );
+    response.status(201).json({
+      message: "User profile picture updated successfully",
+      user: rows[0],
+    });
+  } catch (error) {
+    console.error("Error update user", error);
+    response.status(500).send({
+      message: "Error updating user profile picture",
       error: error.message,
     });
   }

@@ -22,7 +22,6 @@ export default function ToastNotification({ title, message, show }) {
       >
         <Toast bg="light" show={show} autohide>
           <Toast.Header>
-            <img src="holder.js/20x20?text=%20" className="rounded me-2" />
             <strong className="me-auto">{title}</strong>
           </Toast.Header>
           <Toast.Body>{message}</Toast.Body>
