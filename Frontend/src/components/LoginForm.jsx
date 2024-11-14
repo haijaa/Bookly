@@ -41,11 +41,8 @@ export default function LoginForm() {
     navigate("/");
   };
 
-  const resetUsernameError = () => {
+  const resetErrorLogin = () => {
     setLoginErrorUsername(false);
-  };
-
-  const resetPasswordError = () => {
     setLoginErrorPassword(false);
   };
 
@@ -161,7 +158,7 @@ export default function LoginForm() {
                 type="username"
                 name="username"
                 placeholder="Användarnamn"
-                onChange={resetUsernameError}
+                onChange={resetErrorLogin}
               />
               {loginErrorUsername && (
                 <p className="mb-3 text-center text-danger">
@@ -178,7 +175,7 @@ export default function LoginForm() {
                 type="password"
                 name="password"
                 placeholder="Lösenord"
-                onChange={resetPasswordError}
+                onChange={resetErrorLogin}
               />
               {loginErrorPassword && (
                 <p className="mb-3 text-center text-danger">
