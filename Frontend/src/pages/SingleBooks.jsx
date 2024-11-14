@@ -6,6 +6,8 @@ import Button from 'react-bootstrap/Button'
 import UserContext from '../context/UserContext'
 import { Icon } from '@mdi/react'
 import { mdiTrashCanOutline } from '@mdi/js'
+import Image from 'react-bootstrap/Image'
+import profileImage from '../assets/booklyOwl.webp'
 
 export default function SingleBook() {
   let { paramId } = useParams()
@@ -16,7 +18,9 @@ export default function SingleBook() {
   const getSpecificBook = async (id) => {
     await fetch(`/api/books/${id}`)
       .then((response) => response.json())
-      .then((result) => setSpecificBook(result))
+      .then((result) => {
+        setSpecificBook(result)
+      })
   }
 
   const convertDate = (dateToConvert) => {
@@ -120,14 +124,30 @@ export default function SingleBook() {
                   book.reviews.map((review) => (
                     <div
                       key={review.reviewId}
-                      className="rounded mb-3 w-75 py-2 px-4"
+                      className="rounded mb-3 w-75 py-4 px-4"
                       style={{ backgroundColor: '#F2E9DC' }}
                     >
-                      <div className="d-flex justify-content-between">
-                        <p className="fw-semibold">
-                          {review.reviewUser.userFullName}
+                      <div className="d-flex justify-content-between align-items-center mb-3">
+                        <div className="d-flex align-items-center">
+                          <Image
+                            className="me-2"
+                            src={
+                              review.reviewUser.userProfilePicture ??
+                              profileImage
+                            }
+                            roundedCircle
+                            style={{
+                              width: '35px',
+                              height: '35px',
+                            }}
+                          />
+                          <p className="fw-semibold m-0">
+                            {review.reviewUser.userFullName}
+                          </p>
+                        </div>
+                        <p className="m-0">
+                          {convertDate(review.reviewCreatedAt)}
                         </p>
-                        <p>{convertDate(review.reviewCreatedAt)}</p>
                       </div>
                       <p>{review.reviewContent}</p>
 
@@ -135,7 +155,7 @@ export default function SingleBook() {
                         <div className="d-flex  justify-content-end">
                           <Button
                             className="btn-sm"
-                            variant="light"
+                            variant="danger"
                             onClick={() => deleteReview(review.reviewId)}
                           >
                             Ta bort
