@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types'
-import Button from 'react-bootstrap/Button'
-import Modal from 'react-bootstrap/Modal'
+import PropTypes from "prop-types";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 DataProtectionPolicy.propTypes = {
   showModal: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
-}
+};
 
 export default function DataProtectionPolicy({ showModal, onClose }) {
   return (
@@ -49,31 +49,19 @@ export default function DataProtectionPolicy({ showModal, onClose }) {
           överföra dina uppgifter till ett land utanför EU.
         </p>
 
-        <h2 style={{ fontSize: '20px' }}>
-          Personuppgiftsansvariga/dataskyddsombud är:
-        </h2>
-
-        <ul>
-          <li>Anton Karlsson, Ebbe Lieberathsgatan 18C, 412 83 Göteborg</li>
-          <li>Frida Wikman, Ebbe Lieberathsgatan 18C, 412 83 Göteborg</li>
-          <li>Maja Lennevi, Ebbe Lieberathsgatan 18C, 412 83 Göteborg</li>
-        </ul>
-
         <p>
           Du har rätt att kontakta oss om du vill ha ut information om de
           uppgifter vi har om dig, för att begära rättelse, överföring eller för
           att begära att vi begränsar behandlingen, för att göra invändningar
           eller begära radering av dina uppgifter. Detta gör du enklast genom
-          att kontakta oss på{' '}
-          <span className="text-primary">anton.karlsson@iths.se</span>,{' '}
-          <span className="text-primary">frida.wikman@iths.se</span> och{' '}
-          <span className="text-primary">maja.lennevi@iths.se</span>.
+          att kontakta oss på{" "}
+          <span className="text-primary">information@bookly.se</span>.{" "}
         </p>
 
         <p>
           Om du har klagomål på vår behandling av dina personuppgifter har du
           rätt att inge klagomål till tillsynsmyndigheten
-          Integritetsskydsmyndigheten, IMY.{' '}
+          Integritetsskydsmyndigheten, IMY.{" "}
         </p>
       </Modal.Body>
       <Modal.Footer>
@@ -82,5 +70,5 @@ export default function DataProtectionPolicy({ showModal, onClose }) {
         </Button>
       </Modal.Footer>
     </Modal>
-  )
+  );
 }
