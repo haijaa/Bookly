@@ -34,12 +34,9 @@ export default function DataProtectionPolicy({ showModal, onClose }) {
           personuppgifter för att kunna skapa ett inloggningskonto på Bookly. Vi
           tillämpar vid var tid gällande integritetslagstiftning vid all
           behandling av personuppgifter. Den rättsliga grunden för att behandla
-          dina personuppgifter är samtycke. Du har när som helst rätt att
-          återkalla ditt samtycke till behandlingen. Ett återkallande påverkar
-          inte lagligheten av behandlingen innan samtycket återkallades. Du kan
-          återkalla ditt samtycke genom att radera ditt konto via
-          Inställningar-fliken. Dina uppgifter kommer att sparas så länge du har
-          ett konto hos oss och kommer raderas när du tar bort ditt konto.
+          dina personuppgifter är avtal. Dina uppgifter kommer att sparas så
+          länge du har ett konto hos oss och kommer raderas när du tar bort ditt
+          konto.
         </p>
 
         <p>
